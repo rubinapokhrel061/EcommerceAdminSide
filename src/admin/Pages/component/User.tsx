@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { fetchUsers } from "../../Store/dataSlice";
+import { deleteUser, fetchUsers } from "../../Store/dataSlice";
 
 const UserTable = () => {
   const dispatch = useAppDispatch();
@@ -9,7 +9,9 @@ const UserTable = () => {
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
-
+  const handleDelete = (id: string) => {
+    dispatch(deleteUser(id));
+  };
   return (
     <div className="flex flex-col p-5 md:p-10">
       <div className="-m-1.5 overflow-x-auto">
@@ -64,6 +66,7 @@ const UserTable = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                         <button
                           type="button"
+                          onClick={() => handleDelete(user.id)}
                           className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none"
                         >
                           Delete

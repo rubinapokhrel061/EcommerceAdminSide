@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { fetchProducts } from "../../Store/dataSlice";
+import { deleteProduct, fetchProducts } from "../../Store/dataSlice";
 
 const ProductTable = () => {
   const dispatch = useAppDispatch();
@@ -8,7 +8,9 @@ const ProductTable = () => {
   useEffect(() => {
     dispatch(fetchProducts());
   }, []);
-
+  const handleDelete = (id: string) => {
+    dispatch(deleteProduct(id));
+  };
   return (
     <div className="flex flex-col p-5 md:p-10">
       <div className="-m-1.5 overflow-x-auto">
@@ -80,6 +82,7 @@ const ProductTable = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                         <button
+                          onClick={() => handleDelete(product.id)}
                           type="button"
                           className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none"
                         >

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { fetchOrders } from "../../Store/dataSlice";
+import { deleteOrder, fetchOrders } from "../../Store/dataSlice";
 import { OrderStatus } from "../../Types/dataTypes";
 
 const OrderTable = () => {
@@ -11,7 +11,9 @@ const OrderTable = () => {
   useEffect(() => {
     dispatch(fetchOrders());
   }, [dispatch]);
-
+  const handleDelete = (id: string) => {
+    dispatch(deleteOrder(id));
+  };
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 mb-10 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5  pb-10">
       <div className="py-6 px-4 md:px-6 xl:px-7.5">
@@ -77,7 +79,10 @@ const OrderTable = () => {
                       <button className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-700">
                         Edit
                       </button>
-                      <button className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-700">
+                      <button
+                        onClick={() => handleDelete(order.id)}
+                        className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-700"
+                      >
                         Delete
                       </button>
                       <Link

@@ -14,6 +14,12 @@ const initialState: InititalState = {
 interface DeleteProduct {
   productId: string;
 }
+interface DeleteUser {
+  userId: string;
+}
+interface DeleteOrder {
+  orderId: string;
+}
 export interface AddProduct {
   productName: string;
   productDescription: string;
@@ -53,11 +59,32 @@ const dataSlice = createSlice({
       );
       state.products.splice(index, 1);
     },
+    setDeleteUser(state: InititalState, action: PayloadAction<DeleteUser>) {
+      const index = state.users.findIndex(
+        (item) => (item.id = action.payload.userId)
+      );
+      state.users.splice(index, 1);
+    },
+    setDeleteOrder(state: InititalState, action: PayloadAction<DeleteOrder>) {
+      const index = state.orders.findIndex(
+        (item) => (item.id = action.payload.orderId)
+      );
+      state.orders.splice(index, 1);
+    },
   },
 });
 
 // Export the action and reducer
-export const { setStatus, setProduct, setOrders, setUsers } = dataSlice.actions;
+export const {
+  setStatus,
+  setProduct,
+  setOrders,
+  setUsers,
+  setDeleteProduct,
+  setDeleteUser,
+  setDeleteOrder,
+  setSingleProduct,
+} = dataSlice.actions;
 export default dataSlice.reducer;
 
 export function fetchProducts() {
@@ -138,6 +165,41 @@ export function deleteProduct(id: string) {
       const response = await APIAuthenticated.delete("/admin/product/" + id);
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
+        dispatch(setDeleteProduct({ productId: id }));
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
+    } catch (error) {
+      dispatch(setStatus(Status.ERROR));
+    }
+  };
+}
+
+export function deleteUser(id: string) {
+  return async function deleteUserThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+    try {
+      const response = await APIAuthenticated.delete("/user/" + id);
+      if (response.status === 200) {
+        dispatch(setStatus(Status.SUCCESS));
+        dispatch(setDeleteUser({ userId: id }));
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
+    } catch (error) {
+      dispatch(setStatus(Status.ERROR));
+    }
+  };
+}
+
+export function deleteOrder(id: string) {
+  return async function deleteProductThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+    try {
+      const response = await APIAuthenticated.delete("/order/admin/" + id);
+      if (response.status === 200) {
+        dispatch(setStatus(Status.SUCCESS));
+        dispatch(setDeleteOrder({ orderId: id }));
       } else {
         dispatch(setStatus(Status.ERROR));
       }

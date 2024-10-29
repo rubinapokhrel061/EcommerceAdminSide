@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { InititalState, OrderData, Product, User } from "../Types/dataTypes";
+import {
+  Category,
+  InititalState,
+  OrderData,
+  Product,
+  User,
+} from "../Types/dataTypes";
 import { Status } from "../Types/status";
 import { APIAuthenticated } from "../http";
 import { AppDispatch } from "./store";
@@ -8,6 +14,7 @@ const initialState: InititalState = {
   orders: [],
   products: [],
   users: [],
+  categories: [],
   status: Status.LOADING,
   singleProduct: null,
 };
@@ -19,6 +26,9 @@ interface DeleteUser {
 }
 interface DeleteOrder {
   orderId: string;
+}
+interface DeleteCategory {
+  categoryId: string;
 }
 export interface AddProduct {
   productName: string;
@@ -47,6 +57,7 @@ const dataSlice = createSlice({
     setUsers(state: InititalState, action: PayloadAction<User[]>) {
       state.users = action.payload;
     },
+
     setSingleProduct(state: InititalState, action: PayloadAction<Product>) {
       state.singleProduct = action.payload;
     },
@@ -71,6 +82,18 @@ const dataSlice = createSlice({
       );
       state.orders.splice(index, 1);
     },
+    setCategories(state: InititalState, action: PayloadAction<Category[]>) {
+      state.categories = action.payload;
+    },
+    setDeleteCategory(
+      state: InititalState,
+      action: PayloadAction<DeleteCategory>
+    ) {
+      const index = state.categories.findIndex(
+        (item) => (item.id = action.payload.categoryId)
+      );
+      state.categories.splice(index, 1);
+    },
   },
 });
 
@@ -84,6 +107,8 @@ export const {
   setDeleteUser,
   setDeleteOrder,
   setSingleProduct,
+  setCategories,
+  setDeleteCategory,
 } = dataSlice.actions;
 export default dataSlice.reducer;
 
@@ -200,6 +225,55 @@ export function deleteOrder(id: string) {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setDeleteOrder({ orderId: id }));
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
+    } catch (error) {
+      dispatch(setStatus(Status.ERROR));
+    }
+  };
+}
+export function addCategory(data: { categoryName: string }) {
+  return async function addCategoryThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+    try {
+      const response = await APIAuthenticated.post("/admin/category", data);
+      if (response.status === 200) {
+        dispatch(setStatus(Status.SUCCESS));
+        setCategories(response.data.data);
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
+    } catch (error) {
+      dispatch(setStatus(Status.ERROR));
+    }
+  };
+}
+export function fetchCaetgories() {
+  return async function fetchCaetgoriesThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+    try {
+      const response = await APIAuthenticated.get("admin/category");
+      if (response.status === 200) {
+        const { data } = response.data;
+        dispatch(setStatus(Status.SUCCESS));
+        dispatch(setCategories(data));
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
+    } catch (error) {
+      dispatch(setStatus(Status.ERROR));
+    }
+  };
+}
+export function deleteCategory(id: string) {
+  return async function deleteProductThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+    try {
+      const response = await APIAuthenticated.delete("/admin/category/" + id);
+      if (response.status === 200) {
+        dispatch(setStatus(Status.SUCCESS));
+        dispatch(setDeleteCategory({ categoryId: id }));
       } else {
         dispatch(setStatus(Status.ERROR));
       }

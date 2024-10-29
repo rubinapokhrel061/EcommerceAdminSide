@@ -91,7 +91,7 @@ export interface InititalState {
   users: User[];
   orders: OrderData[];
   status: Status;
-  //   categories: Category[];
+  categories: Category[];
   singleProduct: Product | null;
-  //   singleOrder: SingleOrder[];
+  // singleOrder: SingleOrder[];
 }

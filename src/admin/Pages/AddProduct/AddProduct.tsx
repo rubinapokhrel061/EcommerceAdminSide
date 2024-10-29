@@ -1,191 +1,192 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useAppDispatch } from "../../Store/hooks";
-import { APIAuthenticated } from "../../http";
-import { Product } from "../../Types/dataTypes";
-import { addProduct } from "../../Store/dataSlice";
+import { Status } from "../../Types/status";
+import { API } from "../../http";
+import { useAppDispatch, useAppSelector } from "../../Store/hooks";
+import { useNavigate } from "react-router-dom";
+import { addProduct, AddProduct } from "../../Store/dataSlice";
 import AdminLayout from "../../Layout/AdminLayout";
 
-interface Category {
-  id: string;
-  categoryName: string;
-}
+const AddProductPage = () => {
+  interface Category {
+    id: string;
+    categoryName: string;
+  }
 
-const AddProduct = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
   const dispatch = useAppDispatch();
+  const { status } = useAppSelector((state) => state.data);
+  const navigate = useNavigate();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [data, setData] = useState<AddProduct>({
+    productName: "",
+    categoryId: "",
+    image: null,
+    productDescription: "",
+    productPrice: 0,
+    productTotalStockQty: 0,
+  });
+
   const fetchCategories = async () => {
-    const response = await APIAuthenticated.get("/admin/catgory");
+    const response = await API.get("admin/category");
     if (response.status === 200) {
       setCategories(response.data.data);
-    } else {
-      setCategories([]);
     }
   };
-  const [data, setData] = useState<Product>({
-    productName: "",
-    productDescription: "",
-    productTotalStockQty: 0,
-    productImageUrl: "",
-    productPrice: 0,
-    userId: "",
-    categoryId: "",
-  });
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value, files } = e.target as HTMLInputElement;
+
+    setData({
+      ...data,
+      [name]: name === "image" ? files?.[0] : value,
+    });
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await dispatch(addProduct(data));
+    if (status === Status.SUCCESS) {
+      // navigate("/dashboard");
+    } else {
+      navigate("/addproduct");
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
   }, []);
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setData({
-      ...data,
-      [name]: value,
-    });
-  };
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch(addProduct(data));
-  };
+
   return (
     <AdminLayout>
-      <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
-        <div className="bg-white border  rounded-lg shadow relative m-10">
-          <div className="flex items-start justify-between p-5 border-b rounded-t">
-            <h3 className="text-xl font-semibold">Add product</h3>
-            <button
-              type="button"
-              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-              data-modal-toggle="product-modal"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
+      <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+        <h2 className="mb-4 text-xl font-bold text-gray-900">
+          Add a new product
+        </h2>
+        <form onSubmit={handleSubmit}>
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+            <div>
+              <label
+                htmlFor="productName"
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div>
+                Product Name
+              </label>
 
-          <div className="p-6 space-y-6">
-            <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-6 gap-6">
-                <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="product-name"
-                    className="text-sm font-medium text-gray-900 block mb-2"
-                  >
-                    Product Name
-                  </label>
-                  <input
-                    type="text"
-                    name="productName"
-                    id="product-name"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    placeholder="Apple Imac 27”"
-                    required
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="category"
-                    className="text-sm font-medium text-gray-900 block mb-2"
-                  >
-                    Category
-                  </label>
-                  <select name="categoryId" id="">
-                    {categories.length > 0 &&
-                      categories.map((category) => {
-                        return (
-                          <option value={category.id}>
-                            {category.categoryName}
-                          </option>
-                        );
-                      })}
-                  </select>
-                </div>
-                <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="brand"
-                    className="text-sm font-medium text-gray-900 block mb-2"
-                  >
-                    Stock qty
-                  </label>
-                  <input
-                    type="text"
-                    name="productTotalStockQty"
-                    id="stock qty"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    placeholder="Apple"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="price"
-                    className="text-sm font-medium text-gray-900 block mb-2"
-                  >
-                    Price
-                  </label>
-                  <input
-                    type="number"
-                    name="productPrice"
-                    id="price"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    placeholder="$2300"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="image"
-                    className="text-sm font-medium text-gray-900 block mb-2"
-                  >
-                    image
-                  </label>
-                  <input
-                    type="file"
-                    name="productImage"
-                    id="image"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="col-span-full">
-                  <label
-                    htmlFor="product-details"
-                    className="text-sm font-medium text-gray-900 block mb-2"
-                  >
-                    Product Details
-                  </label>
-                  <textarea
-                    id="product-details"
-                    rows={6}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4"
-                    placeholder="Details"
-                    name="productDescription"
-                  ></textarea>
-                </div>
-              </div>
-            </form>
-          </div>
+              <input
+                type="text"
+                name="productName"
+                id="productName"
+                onChange={handleChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                placeholder="Smart Watch"
+                required
+              />
+            </div>
 
-          <div className="p-6 border-t border-gray-200 rounded-b">
-            <button
-              className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              type="submit"
-            >
-              Save all
-            </button>
+            <div>
+              <label
+                htmlFor="productTotalStockQty"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Product Total Stock Quantity
+              </label>
+              <input
+                type="number"
+                name="productTotalStockQty"
+                id="productTotalStockQty"
+                onChange={handleChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                placeholder="5"
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="productPrice"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Product Price
+              </label>
+              <input
+                type="number"
+                name="productPrice"
+                id="productPrice"
+                onChange={handleChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                placeholder="Rs 2999"
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="categoryId"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Category
+              </label>
+              <select
+                id="categoryId"
+                name="categoryId"
+                onChange={handleChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                required
+              >
+                <option value="" disabled hidden>
+                  Select a category
+                </option>
+                {categories?.length > 0 &&
+                  categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.categoryName}
+                    </option>
+                  ))}
+              </select>
+            </div>
+
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="productDescription"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Description
+              </label>
+              <textarea
+                id="productDescription"
+                name="productDescription"
+                rows={8}
+                onChange={handleChange}
+                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
+                placeholder="Your description here"
+                required
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="image"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Image URL
+              </label>
+              <input
+                type="file"
+                name="image"
+                id="productImage"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                onChange={handleChange}
+              />
+            </div>
           </div>
-        </div>
+          <button className="w-full p-2 rounded-xl mt-8 font-medium text-white bg-gradient-to-b from-gray-700 to-gray-900 md:p-3">
+            Add Product
+          </button>
+        </form>
       </div>
     </AdminLayout>
   );
 };
 
-export default AddProduct;
+export default AddProductPage;

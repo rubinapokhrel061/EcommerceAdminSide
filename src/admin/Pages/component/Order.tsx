@@ -11,57 +11,51 @@ const OrderTable = () => {
   useEffect(() => {
     dispatch(fetchOrders());
   }, [dispatch]);
+
   const handleDelete = (id: string) => {
     dispatch(deleteOrder(id));
   };
+
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 mb-10 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5  pb-10">
+    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 mb-10 shadow-default sm:px-7.5 pb-10">
       <div className="py-6 px-4 md:px-6 xl:px-7.5">
-        <h4 className="text-xl font-semibold text-black dark:text-white">
-          Orders
-        </h4>
+        <h4 className="text-xl font-semibold text-black">Orders list:</h4>
       </div>
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead>
-            <tr className="bg-gray-200 text-left dark:bg-meta-4">
-              <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
+            <tr className="bg-gray-200 text-left">
+              <th className="min-w-[220px] text-center py-4 px-4 font-medium text-black xl:pl-11">
                 ID
               </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black">
                 Phone Number
               </th>
-              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+              <th className="min-w-[120px] py-4 px-4 font-medium text-black">
                 Shipping Address
               </th>
-              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+              <th className="min-w-[120px] py-4 px-4 font-medium text-black">
                 Order Status
               </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-white">
-                Actions
-              </th>
+              <th className="py-4 px-4 font-medium text-black">Actions</th>
             </tr>
           </thead>
           <tbody>
             {orders.length > 0 &&
               orders.map((order, key) => (
                 <tr key={key}>
-                  <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                    <h5 className="font-medium text-black dark:text-white">
+                  <td className="border-b border-[#eee] py-5 px-4 pl-9 xl:pl-11">
+                    <h5 className="font-medium text-black">
                       <Link to={`/order/${order.id}`}>{order.id}</Link>
                     </h5>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
-                      <p className="text-sm">{order.phoneNumber}</p>
-                    </p>
+                  <td className="border-b border-[#eee] py-5 px-4">
+                    <p className="text-black text-sm">{order.phoneNumber}</p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
-                      {order.shippingAddress}
-                    </p>
+                  <td className="border-b border-[#eee] py-5 px-4">
+                    <p className="text-black">{order.shippingAddress}</p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <td className="border-b border-[#eee] py-5 px-4">
                     <p
                       className={`inline-flex rounded-full py-1 px-3 text-sm font-medium ${
                         order.orderStatus === OrderStatus.Delivered
@@ -74,7 +68,7 @@ const OrderTable = () => {
                       {order.orderStatus}
                     </p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <td className="border-b border-[#eee] py-5 px-4">
                     <div className="flex items-center space-x-3.5">
                       <button className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-700">
                         Edit

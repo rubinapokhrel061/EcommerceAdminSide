@@ -59,6 +59,19 @@ const SidebarAdmin = () => {
               )}
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/addcategory"
+              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
+            >
+              <LuHome className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
+              {isExpanded && (
+                <span className="ml-5 text-xl transition-colors text-[#EEEEEE] hover:text-[#F5F5F5] duration-300">
+                  Add Category
+                </span>
+              )}
+            </NavLink>
+          </li>
         </ul>
       </div>
     </aside>

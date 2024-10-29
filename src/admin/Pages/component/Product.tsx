@@ -18,7 +18,7 @@ const ProductTable = () => {
           <div className="overflow-hidden">
             <table className="min-w-full divide-y divide-gray-200">
               <caption className="py-2 text-start text-xl font-bold ">
-                List of users:
+                List of Product:
               </caption>
               <thead>
                 <tr className="bg-[#595959] text-white">
@@ -65,7 +65,12 @@ const ProductTable = () => {
                   products.length > 0 &&
                   products.map((product, key) => (
                     <tr key={key}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 w-[200px] h-[200px] object-contain">
+                        <img
+                          className=""
+                          src={product.productImageUrl}
+                          alt={product.productName}
+                        />
                         {product.productName}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">

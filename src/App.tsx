@@ -1,9 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Admindashboard from "./admin/Pages/Admindashboard";
+import Admindashboard from "./admin/Pages/Admindashboard/Admindashboard";
 
 import { Provider } from "react-redux";
 import store from "./admin/Store/store";
 import Login from "./admin/Pages/Login";
+import Dashboard from "./admin/Pages/Dashboard";
+import AddProduct from "./admin/Pages/AddProduct/AddProduct";
 const App = () => {
   return (
     <Provider store={store}>
@@ -11,6 +13,8 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/" element={<Admindashboard />}></Route>
+          <Route path="/dashboard" element={<Dashboard />}></Route>
+          <Route path="/addproduct" element={<AddProduct />}></Route>
         </Routes>
       </BrowserRouter>
     </Provider>

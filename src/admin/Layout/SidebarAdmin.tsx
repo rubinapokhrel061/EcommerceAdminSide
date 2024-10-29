@@ -1,40 +1,25 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LuHome } from "react-icons/lu";
-import { MdLogout } from "react-icons/md";
-import { Link, NavLink } from "react-router-dom";
+
+import { NavLink } from "react-router-dom";
+import { useAppDispatch } from "../Store/hooks";
+import { fetchOrders, fetchProducts, fetchUsers } from "../Store/dataSlice";
 
 const SidebarAdmin = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768); // Check if the screen is desktop or not
 
   const handleMouseEnter = () => {
-    if (!isDesktop) {
-      setIsExpanded(true); // Expand only on mobile
-    }
+    setIsExpanded(true);
   };
 
   const handleMouseLeave = () => {
-    if (!isDesktop) {
-      setIsExpanded(false); // Collapse only on mobile
-    }
+    setIsExpanded(false);
   };
-
-  const handleResize = () => {
-    const desktop = window.innerWidth >= 768;
-    setIsDesktop(desktop);
-    if (desktop) {
-      setIsExpanded(true); // Always expanded on desktop
-    } else {
-      setIsExpanded(false); // Collapse on mobile
-    }
-  };
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Set initial state based on current width
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    dispatch(fetchOrders());
+    dispatch(fetchProducts());
+    dispatch(fetchUsers());
   }, []);
 
   return (
@@ -50,7 +35,7 @@ const SidebarAdmin = () => {
         <ul className="space-y-2 pb-2">
           <li>
             <NavLink
-              to="/"
+              to="/dashboard"
               className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
             >
               <LuHome className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
@@ -61,21 +46,20 @@ const SidebarAdmin = () => {
               )}
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/addproduct"
+              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
+            >
+              <LuHome className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
+              {isExpanded && (
+                <span className="ml-5 text-xl transition-colors text-[#EEEEEE] hover:text-[#F5F5F5] duration-300">
+                  Add Product
+                </span>
+              )}
+            </NavLink>
+          </li>
         </ul>
-
-        <div className="pb-5">
-          <Link
-            to="/"
-            className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
-          >
-            <MdLogout className="w-6 h-6 transition-colors duration-300  text-[#EEEEEE] hover:text-[#F5F5F5]" />
-            {isExpanded && (
-              <span className="ml-5 text-xl transition-colors duration-300  text-[#EEEEEE] hover:text-[#F5F5F5]">
-                Log-Out
-              </span>
-            )}
-          </Link>
-        </div>
       </div>
     </aside>
   );

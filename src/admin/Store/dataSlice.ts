@@ -3,7 +3,9 @@ import {
   Category,
   InititalState,
   OrderData,
+  OrderStatus,
   Product,
+  SingleOrder,
   User,
 } from "../Types/dataTypes";
 import { Status } from "../Types/status";
@@ -17,6 +19,7 @@ const initialState: InititalState = {
   categories: [],
   status: Status.LOADING,
   singleProduct: null,
+  singleOrder: [],
 };
 interface DeleteProduct {
   productId: string;
@@ -94,6 +97,21 @@ const dataSlice = createSlice({
       );
       state.categories.splice(index, 1);
     },
+    setSingleOrder(state: InititalState, action: PayloadAction<SingleOrder[]>) {
+      state.singleOrder = action.payload;
+    },
+    updateOrderStatusById(
+      state: InititalState,
+      action: PayloadAction<{ orderId: string; status: OrderStatus }>
+    ) {
+      const index = state.singleOrder.findIndex(
+        (order) => (order.id = action.payload.orderId)
+      );
+      if (index !== -1) {
+        state.singleOrder[index].Order.orderStatus = action.payload.status;
+        console.log(action.payload.status, "STATUS");
+      }
+    },
   },
 });
 
@@ -109,6 +127,8 @@ export const {
   setSingleProduct,
   setCategories,
   setDeleteCategory,
+  setSingleOrder,
+  updateOrderStatusById,
 } = dataSlice.actions;
 export default dataSlice.reducer;
 
@@ -274,6 +294,57 @@ export function deleteCategory(id: string) {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setDeleteCategory({ categoryId: id }));
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
+    } catch (error) {
+      dispatch(setStatus(Status.ERROR));
+    }
+  };
+}
+export function singleProduct(id: string) {
+  return async function singleProductThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+    try {
+      const response = await APIAuthenticated.get("/admin/product/" + id);
+      if (response.status === 200) {
+        dispatch(setStatus(Status.SUCCESS));
+        dispatch(setSingleProduct(response.data.data));
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
+    } catch (error) {
+      dispatch(setStatus(Status.ERROR));
+    }
+  };
+}
+
+export function singleOrder(id: string) {
+  return async function singleOrderThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+    try {
+      const response = await APIAuthenticated.get("/order/customer/" + id);
+      if (response.status === 200) {
+        dispatch(setStatus(Status.SUCCESS));
+        dispatch(setSingleOrder(response.data.data));
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
+    } catch (error) {
+      dispatch(setStatus(Status.ERROR));
+    }
+  };
+}
+export function handleOrderStatusById(status: OrderStatus, id: string) {
+  return async function handleOrderStatusThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+    try {
+      const response = await APIAuthenticated.patch("/order/admin/" + id, {
+        orderStatus: status,
+      });
+      if (response.status === 200) {
+        dispatch(setStatus(Status.SUCCESS));
+        dispatch(updateOrderStatusById({ orderId: id, status }));
       } else {
         dispatch(setStatus(Status.ERROR));
       }

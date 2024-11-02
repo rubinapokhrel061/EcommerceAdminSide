@@ -9,6 +9,13 @@ import Dashboard from "./admin/Pages/Dashboard";
 import AddProductPage from "./admin/Pages/AddProduct/AddProduct";
 import AddCategory from "./admin/Pages/AddCategory/AddCategory";
 import SingleOrder from "./admin/Pages/SingleOrder";
+import { io } from "socket.io-client";
+export const socket = io("http://localhost:8080", {
+  auth: {
+    token: localStorage.getItem("token"),
+  },
+});
+
 const App = () => {
   return (
     <Provider store={store}>

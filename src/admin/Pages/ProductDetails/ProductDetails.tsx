@@ -1,20 +1,20 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Status } from "../../Types/status";
+
 import { API } from "../../http";
-import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../Store/hooks";
+
 import { addProduct, AddProduct } from "../../Store/dataSlice";
 import AdminLayout from "../../Layout/AdminLayout";
+import ProductTable from "../Component/Product";
 
-const AddProductPage = () => {
+const ProductDetails = () => {
   interface Category {
     id: string;
     categoryName: string;
   }
 
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector((state) => state.data);
-  const navigate = useNavigate();
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [data, setData] = useState<AddProduct>({
     productName: "",
@@ -46,11 +46,11 @@ const AddProductPage = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await dispatch(addProduct(data));
-    if (status === Status.SUCCESS) {
-      // navigate("/dashboard");
-    } else {
-      navigate("/addproduct");
-    }
+    // if (status === Status.SUCCESS) {
+    //   // navigate("/dashboard");
+    // } else {
+    //   navigate("/addproduct");
+    // }
   };
 
   useEffect(() => {
@@ -185,8 +185,11 @@ const AddProductPage = () => {
           </button>
         </form>
       </div>
+      <div>
+        <ProductTable />
+      </div>
     </AdminLayout>
   );
 };
 
-export default AddProductPage;
+export default ProductDetails;

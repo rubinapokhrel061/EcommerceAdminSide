@@ -1,10 +1,6 @@
 import AdminLayout from "../../Layout/AdminLayout";
 import { useAppSelector } from "../../Store/hooks";
 import CardDataStats from "./Component/CardDataStats";
-import ChartOne from "./Component/ChartOne";
-import ChartThree from "./Component/ChartThree";
-import ChartTwo from "./Component/ChartTwo";
-import ChatCard from "./Component/ChatCard";
 
 const ECommerce: React.FC = () => {
   const { orders, products, users } = useAppSelector((state) => state.data);
@@ -81,14 +77,6 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-      </div>
-
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <ChartOne />
-        <ChartTwo />
-        <ChartThree />
-
-        <ChatCard />
       </div>
     </AdminLayout>
   );

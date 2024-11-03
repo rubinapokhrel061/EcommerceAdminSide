@@ -4,15 +4,15 @@ import {
   deleteCategory,
   fetchCaetgories,
 } from "../../Store/dataSlice";
-import { Status } from "../../Types/status";
+
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { useNavigate } from "react-router-dom";
+
 import AdminLayout from "../../Layout/AdminLayout";
 
-const AddCategory = () => {
+const CategoryDetails = () => {
   const dispatch = useAppDispatch();
-  const { status, categories } = useAppSelector((state) => state.data);
-  const navigate = useNavigate();
+  const { categories } = useAppSelector((state) => state.data);
+
   const [data, setData] = useState<{
     categoryName: string;
   }>({
@@ -31,11 +31,6 @@ const AddCategory = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await dispatch(addCategory(data));
-    if (status === Status.SUCCESS) {
-      navigate("/dashboard");
-    } else {
-      navigate("/forms/add-category");
-    }
   };
 
   // Fetch and delete
@@ -133,4 +128,4 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+export default CategoryDetails;

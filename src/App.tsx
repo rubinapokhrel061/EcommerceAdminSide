@@ -4,12 +4,12 @@ import Admindashboard from "./admin/Pages/Admindashboard/Admindashboard";
 import { Provider } from "react-redux";
 import store from "./admin/Store/store";
 import Login from "./admin/Pages/Login";
-import Dashboard from "./admin/Pages/Dashboard";
-
-import AddProductPage from "./admin/Pages/AddProduct/AddProduct";
-import AddCategory from "./admin/Pages/AddCategory/AddCategory";
 import SingleOrder from "./admin/Pages/SingleOrder";
 import { io } from "socket.io-client";
+import ProductDetails from "./admin/Pages/ProductDetails/ProductDetails";
+import CategoryDetails from "./admin/Pages/CategoryDetails/CategoryDetails";
+import UserDetails from "./admin/Pages/UserDetails/UserDetails";
+import OrderDetails from "./admin/Pages/OrderDetails/OrderDetails";
 export const socket = io("http://localhost:8080", {
   auth: {
     token: localStorage.getItem("token"),
@@ -23,9 +23,10 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/" element={<Admindashboard />}></Route>
-          <Route path="/dashboard" element={<Dashboard />}></Route>
-          <Route path="/addproduct" element={<AddProductPage />}></Route>
-          <Route path="/addcategory" element={<AddCategory />}></Route>
+          <Route path="/user-details" element={<UserDetails />}></Route>
+          <Route path="/product-details" element={<ProductDetails />}></Route>
+          <Route path="/category-details" element={<CategoryDetails />}></Route>
+          <Route path="/order-details" element={<OrderDetails />}></Route>
           <Route path="/order/:id" element={<SingleOrder />}></Route>
         </Routes>
       </BrowserRouter>

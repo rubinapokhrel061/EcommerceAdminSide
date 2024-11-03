@@ -13,70 +13,59 @@ const UserTable = () => {
     dispatch(deleteUser(id));
   };
   return (
-    <div className="flex flex-col p-5 md:p-10">
-      <div className="-m-1.5 overflow-x-auto">
-        <div className="p-1.5 min-w-full inline-block align-middle">
-          <div className="overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200">
-              <caption className="py-2 text-start text-xl font-bold ">
-                List of users:
-              </caption>
-              <thead>
-                <tr className="bg-[#595959] text-white">
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-start text-base font-medium  uppercase"
-                  >
-                    UserName
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-start text-base font-medium  uppercase"
-                  >
-                    UserID
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-start text-base font-medium  uppercase"
-                  >
-                    Email
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-end text-base font-medium  uppercase"
-                  >
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {users &&
-                  users.length > 0 &&
-                  users.map((user, key) => (
-                    <tr key={key}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                        {user.username}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                        {user.id}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                        {user.email}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+    <div className="flex flex-col">
+      <div className="rounded-sm border border-stroke bg-white px-5 pt-6 mb-10 shadow-default sm:px-7.5 pb-10">
+        <div className="py-6 px-4 md:px-6 xl:px-7.5">
+          <h4 className="text-xl font-semibold text-black"> Users List:</h4>
+        </div>
+        <div className="max-w-full overflow-x-auto">
+          <table className="w-full table-auto">
+            <thead>
+              <tr className="bg-gray-200 text-left">
+                <th className="min-w-[220px] text-center py-4 px-4 font-medium text-black xl:pl-11">
+                  UserID
+                </th>
+                <th className="min-w-[150px] py-4 px-4 font-medium text-black">
+                  UserName
+                </th>
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black">
+                  Email
+                </th>
+
+                <th className="py-4 px-4 font-medium text-black">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.length > 0 &&
+                users.map((user, key) => (
+                  <tr key={key}>
+                    <td className="border-b border-[#eee] py-5 px-4 pl-9 xl:pl-11">
+                      <p className="font-medium text-black">{user.id}</p>
+                    </td>
+                    <td className="border-b border-[#eee] py-5 px-4">
+                      <p className="text-black ">{user.username}</p>
+                    </td>
+                    <td className="border-b border-[#eee] py-5 px-4">
+                      <p className="text-black">{user.email}</p>
+                    </td>
+
+                    <td className="border-b border-[#eee] py-5 px-4">
+                      <div className="flex items-center space-x-3.5">
+                        <button className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-700">
+                          Edit
+                        </button>
                         <button
-                          type="button"
                           onClick={() => handleDelete(user.id)}
-                          className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+                          className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-700"
                         >
                           Delete
                         </button>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
         </div>
       </div>
 

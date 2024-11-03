@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { LuHome } from "react-icons/lu";
-
+import { TbCategoryPlus } from "react-icons/tb";
+import { FaRegUser } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useAppDispatch } from "../Store/hooks";
 import { fetchOrders, fetchProducts, fetchUsers } from "../Store/dataSlice";
+import { AiFillEdit } from "react-icons/ai";
+import { AiFillProduct } from "react-icons/ai";
 
 const SidebarAdmin = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -38,7 +40,7 @@ const SidebarAdmin = () => {
               to="/user-details"
               className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
             >
-              <LuHome className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
+              <FaRegUser className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
               {isExpanded && (
                 <span className="ml-5 text-xl transition-colors text-[#EEEEEE] hover:text-[#F5F5F5] duration-300">
                   User Details
@@ -51,7 +53,7 @@ const SidebarAdmin = () => {
               to="/product-details"
               className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
             >
-              <LuHome className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
+              <AiFillProduct className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
               {isExpanded && (
                 <span className="ml-5 text-xl transition-colors text-[#EEEEEE] hover:text-[#F5F5F5] duration-300">
                   Product Details
@@ -64,7 +66,7 @@ const SidebarAdmin = () => {
               to="/category-details"
               className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
             >
-              <LuHome className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
+              <TbCategoryPlus className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
               {isExpanded && (
                 <span className="ml-5 text-xl transition-colors text-[#EEEEEE] hover:text-[#F5F5F5] duration-300">
                   Category Details
@@ -77,7 +79,7 @@ const SidebarAdmin = () => {
               to="/order-details"
               className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
             >
-              <LuHome className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
+              <AiFillEdit className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
               {isExpanded && (
                 <span className="ml-5 text-xl transition-colors text-[#EEEEEE] hover:text-[#F5F5F5] duration-300">
                   Order Details

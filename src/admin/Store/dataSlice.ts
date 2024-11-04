@@ -11,6 +11,7 @@ import {
 import { Status } from "../Types/status";
 import { APIAuthenticated } from "../http";
 import { AppDispatch } from "./store";
+import toast from "react-hot-toast";
 // Define the initial state based on the InititalState type
 const initialState: InititalState = {
   orders: [],
@@ -51,6 +52,9 @@ const dataSlice = createSlice({
     setStatus(state: InititalState, action: PayloadAction<Status>) {
       state.status = action.payload;
     },
+    resetStatus(state: InititalState) {
+      state.status = Status.LOADING;
+    },
     setProduct(state: InititalState, action: PayloadAction<Product[]>) {
       state.products = action.payload;
     },
@@ -88,6 +92,17 @@ const dataSlice = createSlice({
     setCategories(state: InititalState, action: PayloadAction<Category[]>) {
       state.categories = action.payload;
     },
+    updateCategoryInState(
+      state: InititalState,
+      action: PayloadAction<Category>
+    ) {
+      const index = state.categories.findIndex(
+        (category) => category.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.categories[index] = action.payload; // Update the category in the state
+      }
+    },
     setDeleteCategory(
       state: InititalState,
       action: PayloadAction<DeleteCategory>
@@ -118,6 +133,7 @@ const dataSlice = createSlice({
 // Export the action and reducer
 export const {
   setStatus,
+  resetStatus,
   setProduct,
   setOrders,
   setUsers,
@@ -129,6 +145,7 @@ export const {
   setDeleteCategory,
   setSingleOrder,
   updateOrderStatusById,
+  updateCategoryInState,
 } = dataSlice.actions;
 export default dataSlice.reducer;
 
@@ -194,11 +211,14 @@ export function addProduct(data: AddProduct) {
       });
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
+        toast.success(response.data.message);
+        dispatch(fetchProducts());
       } else {
         dispatch(setStatus(Status.ERROR));
       }
-    } catch (error) {
+    } catch (error: any) {
       dispatch(setStatus(Status.ERROR));
+      toast.error(error.response.data.message);
     }
   };
 }
@@ -211,11 +231,13 @@ export function deleteProduct(id: string) {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setDeleteProduct({ productId: id }));
+        toast.success(response.data.message);
       } else {
         dispatch(setStatus(Status.ERROR));
       }
-    } catch (error) {
+    } catch (error: any) {
       dispatch(setStatus(Status.ERROR));
+      toast.error(error.response.data.message);
     }
   };
 }
@@ -228,11 +250,13 @@ export function deleteUser(id: string) {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setDeleteUser({ userId: id }));
+        toast.success(response.data.message);
       } else {
         dispatch(setStatus(Status.ERROR));
       }
-    } catch (error) {
+    } catch (error: any) {
       dispatch(setStatus(Status.ERROR));
+      toast.error(error.response.data.message);
     }
   };
 }
@@ -245,11 +269,13 @@ export function deleteOrder(id: string) {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setDeleteOrder({ orderId: id }));
+        toast.success(response.data.message);
       } else {
         dispatch(setStatus(Status.ERROR));
       }
-    } catch (error) {
+    } catch (error: any) {
       dispatch(setStatus(Status.ERROR));
+      toast.error(error.response.data.message);
     }
   };
 }
@@ -261,11 +287,14 @@ export function addCategory(data: { categoryName: string }) {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         setCategories(response.data.data);
+        toast.success(response.data.message);
+        dispatch(fetchCaetgories());
       } else {
         dispatch(setStatus(Status.ERROR));
       }
-    } catch (error) {
+    } catch (error: any) {
       dispatch(setStatus(Status.ERROR));
+      toast.error(error.response.data.message);
     }
   };
 }
@@ -294,14 +323,40 @@ export function deleteCategory(id: string) {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setDeleteCategory({ categoryId: id }));
+        toast.success(response.data.message);
       } else {
         dispatch(setStatus(Status.ERROR));
       }
-    } catch (error) {
+    } catch (error: any) {
       dispatch(setStatus(Status.ERROR));
+      toast.error(error.response.data.message);
     }
   };
 }
+// Thunk for updating a category
+export function updateCategory(id: string, data: { categoryName: string }) {
+  return async function updateCategoryThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+    try {
+      const response = await APIAuthenticated.patch(
+        `/admin/category/${id}`,
+        data
+      );
+      if (response.status === 200) {
+        dispatch(updateCategoryInState(response.data.data)); // Update the category in state
+        dispatch(setStatus(Status.SUCCESS));
+        toast.success(response.data.message);
+        dispatch(fetchCaetgories());
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
+    } catch (error: any) {
+      dispatch(setStatus(Status.ERROR));
+      toast.error(error.response.data.message);
+    }
+  };
+}
+
 export function singleProduct(id: string) {
   return async function singleProductThunk(dispatch: AppDispatch) {
     dispatch(setStatus(Status.LOADING));
@@ -345,11 +400,13 @@ export function handleOrderStatusById(status: OrderStatus, id: string) {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(updateOrderStatusById({ orderId: id, status }));
+        toast.success(response.data.message);
       } else {
         dispatch(setStatus(Status.ERROR));
       }
-    } catch (error) {
+    } catch (error: any) {
       dispatch(setStatus(Status.ERROR));
+      toast.error(error.response.data.message);
     }
   };
 }

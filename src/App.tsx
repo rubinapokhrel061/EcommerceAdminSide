@@ -10,6 +10,7 @@ import ProductDetails from "./admin/Pages/ProductDetails/ProductDetails";
 import CategoryDetails from "./admin/Pages/CategoryDetails/CategoryDetails";
 import UserDetails from "./admin/Pages/UserDetails/UserDetails";
 import OrderDetails from "./admin/Pages/OrderDetails/OrderDetails";
+import { Toaster } from "react-hot-toast";
 export const socket = io("http://localhost:8080", {
   auth: {
     token: localStorage.getItem("token"),
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/order/:id" element={<SingleOrder />}></Route>
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </Provider>
   );
 };

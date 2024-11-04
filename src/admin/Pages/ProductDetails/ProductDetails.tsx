@@ -16,6 +16,7 @@ const ProductDetails = () => {
   const dispatch = useAppDispatch();
 
   const [categories, setCategories] = useState<Category[]>([]);
+
   const [data, setData] = useState<AddProduct>({
     productName: "",
     categoryId: "",
@@ -46,20 +47,15 @@ const ProductDetails = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await dispatch(addProduct(data));
-    // if (status === Status.SUCCESS) {
-    //   // navigate("/dashboard");
-    // } else {
-    //   navigate("/addproduct");
-    // }
   };
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [dispatch]);
 
   return (
     <AdminLayout>
-      <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+      <div className="px-10 py-8 mx-auto max-w-screen-xl">
         <h2 className="mb-4 text-xl font-bold text-gray-900">
           Add a new product
         </h2>
@@ -127,7 +123,7 @@ const ProductDetails = () => {
               >
                 Category
               </label>
-              <select
+              {/* <select
                 id="categoryId"
                 name="categoryId"
                 onChange={handleChange}
@@ -143,6 +139,25 @@ const ProductDetails = () => {
                       {category.categoryName}
                     </option>
                   ))}
+              </select> */}
+              <select
+                id="categoryId"
+                name="categoryId"
+                value={data.categoryId}
+                onChange={handleChange}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                required
+              >
+                {categories.length > 0 && (
+                  <option value="" disabled hidden>
+                    Select a category
+                  </option>
+                )}
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.categoryName}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -180,7 +195,7 @@ const ProductDetails = () => {
               />
             </div>
           </div>
-          <button className="w-full p-2 rounded-xl mt-8 font-medium text-white bg-gradient-to-b from-gray-700 to-gray-900 md:p-3">
+          <button className="w-full p-2 rounded-xl mt-8 font-medium text-white bg-gradient-to-b from-blue-700 to-blue-900 md:p-3">
             Add Product
           </button>
         </form>

@@ -42,7 +42,15 @@ export interface AddProduct {
   image: null;
   categoryId: string;
 }
-
+export interface UpdateProduct {
+  id: string;
+  productName: string;
+  productDescription: string;
+  productPrice: number;
+  productTotalStockQty: number;
+  image: null;
+  categoryId: string;
+}
 // Create the slice
 const dataSlice = createSlice({
   name: "data",
@@ -67,6 +75,14 @@ const dataSlice = createSlice({
 
     setSingleProduct(state: InititalState, action: PayloadAction<Product>) {
       state.singleProduct = action.payload;
+    },
+    updateProduct(state: InititalState, action: PayloadAction<Product>) {
+      const index = state.products.findIndex(
+        (product) => product.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.products[index] = action.payload;
+      }
     },
     setDeleteProduct(
       state: InititalState,
@@ -145,6 +161,7 @@ export const {
   setDeleteCategory,
   setSingleOrder,
   updateOrderStatusById,
+  updateProduct,
   updateCategoryInState,
 } = dataSlice.actions;
 export default dataSlice.reducer;
@@ -222,6 +239,29 @@ export function addProduct(data: AddProduct) {
     }
   };
 }
+export function updateProductDetails(id: string, data: AddProduct) {
+  return async function updateCategoryThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+    try {
+      const response = await APIAuthenticated.patch(
+        `/admin/product/${id}`,
+        data
+      );
+      if (response.status === 200) {
+        console.log(response.data.message);
+        dispatch(updateProduct(response.data));
+        dispatch(setStatus(Status.SUCCESS));
+        toast.success(response?.data?.message);
+        dispatch(fetchProducts());
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
+    } catch (error: any) {
+      dispatch(setStatus(Status.ERROR));
+      toast.error(error.response.data.message);
+    }
+  };
+}
 
 export function deleteProduct(id: string) {
   return async function deleteProductThunk(dispatch: AppDispatch) {
@@ -231,6 +271,7 @@ export function deleteProduct(id: string) {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setDeleteProduct({ productId: id }));
+        dispatch(fetchProducts());
         toast.success(response.data.message);
       } else {
         dispatch(setStatus(Status.ERROR));
@@ -324,6 +365,7 @@ export function deleteCategory(id: string) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setDeleteCategory({ categoryId: id }));
         toast.success(response.data.message);
+        dispatch(fetchCaetgories());
       } else {
         dispatch(setStatus(Status.ERROR));
       }
@@ -343,9 +385,10 @@ export function updateCategory(id: string, data: { categoryName: string }) {
         data
       );
       if (response.status === 200) {
-        dispatch(updateCategoryInState(response.data.data)); // Update the category in state
+        console.log(response.data.message);
+        dispatch(updateCategoryInState(response.data)); // Update the category in state
         dispatch(setStatus(Status.SUCCESS));
-        toast.success(response.data.message);
+        toast.success(response?.data?.message);
         dispatch(fetchCaetgories());
       } else {
         dispatch(setStatus(Status.ERROR));

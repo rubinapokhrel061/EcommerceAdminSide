@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { deleteProduct, fetchProducts } from "../../Store/dataSlice";
-
-const ProductTable = () => {
+interface ProductTableProps {
+  onSubmit: (product: any) => void; // Pass in the product data to handle editing
+}
+const ProductTable = ({ onSubmit }: ProductTableProps) => {
   const dispatch = useAppDispatch();
   const { products } = useAppSelector((state) => state.data);
   useEffect(() => {
@@ -66,7 +68,10 @@ const ProductTable = () => {
                     </td>
                     <td className="border-b border-[#eee] py-5 px-4">
                       <div className="flex items-center space-x-3.5">
-                        <button className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-700">
+                        <button
+                          onClick={() => onSubmit(product)}
+                          className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-700"
+                        >
                           Edit
                         </button>
                         <button

@@ -32,13 +32,13 @@ const CategoryDetails = () => {
       // Update existing category
       await dispatch(
         updateCategory(editingId, { categoryName: data.categoryName })
-      );
+      ).then;
+      setData({ categoryName: "" });
       setEditingId(null);
-      setData({ categoryName: "" }); // Clear input
     } else {
       // Add new category
       await dispatch(addCategory(data));
-      setData({ categoryName: "" }); // Clear input
+      setData({ categoryName: "" });
     }
   };
 
@@ -74,7 +74,7 @@ const CategoryDetails = () => {
                 type="text"
                 name="categoryName"
                 id="categoryName"
-                value={data.categoryName} // Controlled input
+                value={data.categoryName}
                 onChange={handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholder="Electronics"

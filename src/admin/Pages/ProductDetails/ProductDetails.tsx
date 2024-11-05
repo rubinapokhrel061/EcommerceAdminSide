@@ -1,9 +1,12 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-
+import { ChangeEvent, FormEvent, useEffect, useState, useRef } from "react";
 import { API } from "../../http";
 import { useAppDispatch } from "../../Store/hooks";
-
-import { addProduct, AddProduct } from "../../Store/dataSlice";
+import {
+  addProduct,
+  updateProductDetails,
+  AddProduct,
+  UpdateProduct,
+} from "../../Store/dataSlice";
 import AdminLayout from "../../Layout/AdminLayout";
 import ProductTable from "../Component/Product";
 
@@ -14,9 +17,9 @@ const ProductDetails = () => {
   }
 
   const dispatch = useAppDispatch();
+  const imageInputRef = useRef<HTMLInputElement | null>(null); // ref for the image input
 
   const [categories, setCategories] = useState<Category[]>([]);
-
   const [data, setData] = useState<AddProduct>({
     productName: "",
     categoryId: "",
@@ -25,7 +28,9 @@ const ProductDetails = () => {
     productPrice: 0,
     productTotalStockQty: 0,
   });
+  const [editingId, setEditingId] = useState<string | null>(null);
 
+  // Fetch categories on component mount
   const fetchCategories = async () => {
     const response = await API.get("admin/category");
     if (response.status === 200) {
@@ -38,29 +43,66 @@ const ProductDetails = () => {
   ) => {
     const { name, value, files } = e.target as HTMLInputElement;
 
-    setData({
-      ...data,
+    setData((prevData) => ({
+      ...prevData,
       [name]: name === "image" ? files?.[0] : value,
-    });
+    }));
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await dispatch(addProduct(data));
+
+    // If editing, update the product
+    if (editingId) {
+      let id = editingId;
+      await dispatch(updateProductDetails(id, data));
+    } else {
+      // If adding a new product, dispatch the addProduct action
+      await dispatch(addProduct(data));
+    }
+
+    // After dispatching, reset the form
+    setData({
+      productName: "",
+      categoryId: "",
+      image: null,
+      productDescription: "",
+      productPrice: 0,
+      productTotalStockQty: 0,
+    });
+    setEditingId(null); // Reset the editing state
+
+    // Reset the file input
+    if (imageInputRef.current) {
+      imageInputRef.current.value = ""; // Manually reset the file input
+    }
   };
 
   useEffect(() => {
     fetchCategories();
   }, [dispatch]);
 
+  const handleEdit = (product: UpdateProduct) => {
+    setEditingId(product.id);
+    setData({
+      productName: product.productName,
+      categoryId: product.categoryId,
+      image: product.image || null, // Keep the existing image as null for re-upload
+      productDescription: product.productDescription,
+      productPrice: product.productPrice,
+      productTotalStockQty: product.productTotalStockQty,
+    });
+  };
+
   return (
     <AdminLayout>
       <div className="px-10 py-8 mx-auto max-w-screen-xl">
         <h2 className="mb-4 text-xl font-bold text-gray-900">
-          Add a new product
+          {editingId ? "Edit Product" : "Add a New Product"}
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+            {/* Product Name Input */}
             <div>
               <label
                 htmlFor="productName"
@@ -68,11 +110,11 @@ const ProductDetails = () => {
               >
                 Product Name
               </label>
-
               <input
                 type="text"
                 name="productName"
                 id="productName"
+                value={data.productName} // Controlled input
                 onChange={handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholder="Smart Watch"
@@ -80,6 +122,7 @@ const ProductDetails = () => {
               />
             </div>
 
+            {/* Product Total Stock Quantity Input */}
             <div>
               <label
                 htmlFor="productTotalStockQty"
@@ -91,6 +134,7 @@ const ProductDetails = () => {
                 type="number"
                 name="productTotalStockQty"
                 id="productTotalStockQty"
+                value={data.productTotalStockQty} // Controlled input
                 onChange={handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholder="5"
@@ -98,6 +142,7 @@ const ProductDetails = () => {
               />
             </div>
 
+            {/* Product Price Input */}
             <div>
               <label
                 htmlFor="productPrice"
@@ -109,6 +154,7 @@ const ProductDetails = () => {
                 type="number"
                 name="productPrice"
                 id="productPrice"
+                value={data.productPrice} // Controlled input
                 onChange={handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholder="Rs 2999"
@@ -116,6 +162,7 @@ const ProductDetails = () => {
               />
             </div>
 
+            {/* Category Selection */}
             <div>
               <label
                 htmlFor="categoryId"
@@ -123,27 +170,10 @@ const ProductDetails = () => {
               >
                 Category
               </label>
-              {/* <select
-                id="categoryId"
-                name="categoryId"
-                onChange={handleChange}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                required
-              >
-                <option value="" disabled hidden>
-                  Select a category
-                </option>
-                {categories?.length > 0 &&
-                  categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.categoryName}
-                    </option>
-                  ))}
-              </select> */}
               <select
                 id="categoryId"
                 name="categoryId"
-                value={data.categoryId}
+                value={data.categoryId} // Controlled input
                 onChange={handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 required
@@ -161,6 +191,7 @@ const ProductDetails = () => {
               </select>
             </div>
 
+            {/* Product Description Input */}
             <div className="sm:col-span-2">
               <label
                 htmlFor="productDescription"
@@ -172,6 +203,7 @@ const ProductDetails = () => {
                 id="productDescription"
                 name="productDescription"
                 rows={8}
+                value={data.productDescription} // Controlled input
                 onChange={handleChange}
                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                 placeholder="Your description here"
@@ -179,29 +211,31 @@ const ProductDetails = () => {
               />
             </div>
 
+            {/* Product Image Upload */}
             <div className="sm:col-span-2">
               <label
                 htmlFor="image"
                 className="block mb-2 text-sm font-medium text-gray-900"
               >
-                Image URL
+                Image
               </label>
               <input
                 type="file"
                 name="image"
-                id="productImage"
+                id="image"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 onChange={handleChange}
+                ref={imageInputRef} // Attach the ref to the input element
               />
             </div>
           </div>
           <button className="w-full p-2 rounded-xl mt-8 font-medium text-white bg-gradient-to-b from-blue-700 to-blue-900 md:p-3">
-            Add Product
+            {editingId ? "Update Product" : "Add Product"}
           </button>
         </form>
       </div>
       <div>
-        <ProductTable />
+        <ProductTable onSubmit={handleEdit} />
       </div>
     </AdminLayout>
   );

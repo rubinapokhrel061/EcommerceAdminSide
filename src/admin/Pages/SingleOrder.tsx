@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../Store/hooks";
 import {
   handleOrderStatusById,
@@ -8,19 +8,17 @@ import {
 } from "../Store/dataSlice";
 import { socket } from "../../App";
 import { OrderStatus, PaymentMethod, PaymentStatus } from "../Types/dataTypes";
+import toast from "react-hot-toast";
 
 const SingleOrder = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {
     singleOrder: [order],
   } = useAppSelector((state) => state.data);
-  const [orderStatus, setOrderStatus] = useState(
-    order?.Order?.orderStatus || ""
-  );
-  const [paymentStatus, setPaymentStatus] = useState(
-    order?.Order?.Payment?.paymentStatus || ""
-  );
+  const [orderStatus, setOrderStatus] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("");
 
   useEffect(() => {
     if (id) {
@@ -28,7 +26,7 @@ const SingleOrder = () => {
     }
   }, [dispatch, id]);
 
-  const handleOrderStatus = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handleOrderStatus = async (e: ChangeEvent<HTMLSelectElement>) => {
     setOrderStatus(e.target.value as OrderStatus);
     if (id) {
       socket.emit("updatedOrderStatus", {
@@ -36,7 +34,14 @@ const SingleOrder = () => {
         orderId: id,
         userId: order.Order.userId,
       });
-      dispatch(handleOrderStatusById(e.target.value as OrderStatus, id));
+      try {
+        await dispatch(
+          handleOrderStatusById(e.target.value as OrderStatus, id)
+        );
+        navigate("/order-details");
+      } catch (error: any) {
+        toast.error(error);
+      }
     }
   };
   const handlePaymentStatus = async (e: ChangeEvent<HTMLSelectElement>) => {
@@ -51,10 +56,14 @@ const SingleOrder = () => {
         userId: order.Order.userId,
       });
 
-      // Dispatch the updatePaymentStatus action
-      dispatch(
-        updatePaymentStatus({ orderId: id, paymentStatus: newPaymentStatus })
-      );
+      try {
+        await dispatch(
+          updatePaymentStatus({ orderId: id, paymentStatus: newPaymentStatus })
+        );
+        navigate("/order-details");
+      } catch (error: any) {
+        toast.error(error);
+      }
     }
   };
 
@@ -125,7 +134,7 @@ const SingleOrder = () => {
               <div className="flex justify-between text-gray-700">
                 <p className="font-medium">Payment Status</p>
                 <select
-                  value={paymentStatus}
+                  value={order?.Order?.Payment?.paymentStatus}
                   onChange={handlePaymentStatus}
                   className="bg-blue-50 text-blue-600 border border-blue-300 rounded-lg p-2 w-full"
                 >
@@ -136,7 +145,7 @@ const SingleOrder = () => {
               <div className="flex justify-between text-gray-700">
                 <p className="font-medium">Order Status</p>
                 <select
-                  value={orderStatus}
+                  value={order?.Order?.orderStatus}
                   onChange={handleOrderStatus}
                   className="bg-blue-50 text-blue-600 border border-blue-300 rounded-lg p-2 w-full"
                 >

@@ -19,7 +19,7 @@ const OrderTable = () => {
   const handleDelete = (id: string) => {
     dispatch(deleteOrder(id));
   };
-  console.log(orders[0].paymentDetails);
+
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 mb-10 shadow-default sm:px-7.5 pb-10">
       <div className="py-6 px-4 md:px-6 xl:px-7.5">

@@ -70,9 +70,6 @@ const OrderTable = () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4">
                     <div className="flex items-center space-x-3.5">
-                      <button className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-700">
-                        Edit
-                      </button>
                       <button
                         onClick={() => handleDelete(order.id)}
                         className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-700"
@@ -92,6 +89,11 @@ const OrderTable = () => {
           </tbody>
         </table>
       </div>
+      {(!orders || orders.length === 0) && (
+        <div className="flex justify-center p-5">
+          <p className="text-center text-gray-500">No order found.</p>
+        </div>
+      )}
     </div>
   );
 };

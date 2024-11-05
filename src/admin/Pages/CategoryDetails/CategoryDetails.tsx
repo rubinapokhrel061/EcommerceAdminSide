@@ -136,6 +136,11 @@ const CategoryDetails = () => {
               </tbody>
             </table>
           </div>
+          {(!categories || categories.length === 0) && (
+            <div className="flex justify-center p-5">
+              <p className="text-center text-gray-500">No categories found.</p>
+            </div>
+          )}
         </div>
       </div>
     </AdminLayout>

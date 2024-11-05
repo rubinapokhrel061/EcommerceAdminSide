@@ -99,6 +99,14 @@ const dataSlice = createSlice({
       );
       state.users.splice(index, 1);
     },
+    updateUser(state: InititalState, action: PayloadAction<User>) {
+      const index = state.categories.findIndex(
+        (user) => user.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.users[index] = action.payload;
+      }
+    },
     setDeleteOrder(state: InititalState, action: PayloadAction<DeleteOrder>) {
       const index = state.orders.findIndex(
         (item) => (item.id = action.payload.orderId)
@@ -163,6 +171,7 @@ export const {
   updateOrderStatusById,
   updateProduct,
   updateCategoryInState,
+  updateUser,
 } = dataSlice.actions;
 export default dataSlice.reducer;
 
@@ -217,11 +226,31 @@ export function fetchUsers() {
     }
   };
 }
-export function addProduct(data: AddProduct) {
+export function updateUserDetails(id: string, data: User) {
+  return async function updateUserThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+    try {
+      const response = await APIAuthenticated.patch("/user/" + id, data);
+      if (response.status === 200) {
+        console.log(response.data.message);
+        dispatch(updateUser(response.data));
+        dispatch(setStatus(Status.SUCCESS));
+        toast.success(response?.data?.message);
+        dispatch(fetchUsers());
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
+    } catch (error: any) {
+      dispatch(setStatus(Status.ERROR));
+      toast.error(error.response.data.message);
+    }
+  };
+}
+export function addProduct(formData: AddProduct) {
   return async function addProductThunk(dispatch: AppDispatch) {
     dispatch(setStatus(Status.LOADING));
     try {
-      const response = await APIAuthenticated.post("/admin/product", data, {
+      const response = await APIAuthenticated.post("/admin/product", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -239,13 +268,13 @@ export function addProduct(data: AddProduct) {
     }
   };
 }
-export function updateProductDetails(id: string, data: AddProduct) {
+export function updateProductDetails(id: string, formData: AddProduct) {
   return async function updateCategoryThunk(dispatch: AppDispatch) {
     dispatch(setStatus(Status.LOADING));
     try {
       const response = await APIAuthenticated.patch(
         `/admin/product/${id}`,
-        data
+        formData
       );
       if (response.status === 200) {
         console.log(response.data.message);
@@ -357,7 +386,7 @@ export function fetchCaetgories() {
   };
 }
 export function deleteCategory(id: string) {
-  return async function deleteProductThunk(dispatch: AppDispatch) {
+  return async function deleteCategoryThunk(dispatch: AppDispatch) {
     dispatch(setStatus(Status.LOADING));
     try {
       const response = await APIAuthenticated.delete("/admin/category/" + id);

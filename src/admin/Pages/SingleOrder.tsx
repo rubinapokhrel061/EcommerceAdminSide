@@ -25,7 +25,7 @@ const SingleOrder = () => {
   }, []);
 
   const handleOrderStatus = (e: ChangeEvent<HTMLSelectElement>) => {
-    setOrderStatus(e.target.value);
+    setOrderStatus(e.target.value as OrderStatus);
     if (id) {
       socket.emit("updatedOrderStatus", {
         status: e.target.value,
@@ -35,7 +35,7 @@ const SingleOrder = () => {
       dispatch(handleOrderStatusById(e.target.value as OrderStatus, id));
     }
   };
-
+  console.log(order);
   return (
     <div className="py-20 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
       <div className="flex justify-start items-start space-y-5 flex-col">
@@ -168,7 +168,7 @@ const SingleOrder = () => {
             <div className="flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row items-center md:items-start">
               <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
                 <p className="w-48 lg:w-full text-center md:text-left text-sm leading-5 text-gray-600">
-                  UserName: test
+                  UserName: {}
                 </p>
                 <p className="text-base font-semibold leading-4 text-center md:text-left text-gray-800">
                   Address: Itahari
@@ -177,14 +177,6 @@ const SingleOrder = () => {
                   Phone: 9123123
                 </p>
               </div>
-            </div>
-            <div className="flex w-full justify-center items-center md:justify-start md:items-start">
-              <button
-                className="mt-6 md:mt-0 py-3 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 w-96 2xl:w-full text-base font-medium leading-4 text-gray-800"
-                style={{ backgroundColor: "red", color: "white" }}
-              >
-                Delete Order
-              </button>
             </div>
           </div>
         </div>

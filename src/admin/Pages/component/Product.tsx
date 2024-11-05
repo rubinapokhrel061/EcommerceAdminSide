@@ -75,7 +75,7 @@ const ProductTable = ({ onSubmit }: ProductTableProps) => {
                           Edit
                         </button>
                         <button
-                          onClick={() => handleDelete(product.id)}
+                          onClick={() => handleDelete(product?.id as string)}
                           className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-700"
                         >
                           Delete

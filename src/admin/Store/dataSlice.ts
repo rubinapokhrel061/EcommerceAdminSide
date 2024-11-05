@@ -4,6 +4,7 @@ import {
   InititalState,
   OrderData,
   OrderStatus,
+  PaymentStatus,
   Product,
   SingleOrder,
   User,
@@ -151,6 +152,16 @@ const dataSlice = createSlice({
         console.log(action.payload.status, "STATUS");
       }
     },
+    updatePaymentStatusById(
+      state,
+      action: PayloadAction<{ orderId: string; paymentStatus: PaymentStatus }>
+    ) {
+      const { orderId, paymentStatus } = action.payload;
+      const order = state.orders.find((order) => order.id === orderId);
+      if (order) {
+        order.Payment.paymentStatus = paymentStatus;
+      }
+    },
   },
 });
 
@@ -172,6 +183,7 @@ export const {
   updateProduct,
   updateCategoryInState,
   updateUser,
+  updatePaymentStatusById,
 } = dataSlice.actions;
 export default dataSlice.reducer;
 
@@ -462,6 +474,33 @@ export function singleOrder(id: string) {
     }
   };
 }
+// export function updatePaymentStatus({ orderId, paymentStatus }: { orderId: string; paymentStatus: PaymentStatus }) {
+//   return async function handlePaymentStatusThunk(dispatch: AppDispatch) {
+//     dispatch(setStatus(Status.LOADING));
+//     try {
+//       const response = await APIAuthenticated.patch(
+//         "/order/admin/payment" + orderId,
+//        { paymentStatus}
+//       );
+//       if (response.status === 200) {
+//         dispatch(setStatus(Status.SUCCESS));
+//         dispatch(
+//           updatePaymentStatusById({
+//             orderId: orderId,
+//             status,
+//           })
+//         );
+//         toast.success(response.data.message);
+//       } else {
+//         dispatch(setStatus(Status.ERROR));
+//       }
+//     } catch (error: any) {
+//       dispatch(setStatus(Status.ERROR));
+//       toast.error(error.response.data.message);
+//     }
+//   };
+// }
+
 export function handleOrderStatusById(status: OrderStatus, id: string) {
   return async function handleOrderStatusThunk(dispatch: AppDispatch) {
     dispatch(setStatus(Status.LOADING));
@@ -479,6 +518,46 @@ export function handleOrderStatusById(status: OrderStatus, id: string) {
     } catch (error: any) {
       dispatch(setStatus(Status.ERROR));
       toast.error(error.response.data.message);
+    }
+  };
+}
+
+export function updatePaymentStatus({
+  orderId,
+  paymentStatus,
+}: {
+  orderId: string;
+  paymentStatus: PaymentStatus;
+}) {
+  return async function handlePaymentStatusThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+    try {
+      const response = await APIAuthenticated.patch(
+        `/order/admin/payment/${orderId}`,
+        {
+          paymentStatus,
+        }
+      );
+
+      if (response.status === 200) {
+        dispatch(setStatus(Status.SUCCESS));
+        dispatch(
+          updatePaymentStatusById({
+            orderId,
+            paymentStatus,
+          })
+        );
+        toast.success(response.data.message);
+      } else {
+        dispatch(setStatus(Status.ERROR));
+        toast.error("Failed to update payment status");
+      }
+    } catch (error: any) {
+      dispatch(setStatus(Status.ERROR));
+
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong!";
+      toast.error(errorMessage);
     }
   };
 }

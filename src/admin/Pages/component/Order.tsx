@@ -2,7 +2,11 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { deleteOrder, fetchOrders } from "../../Store/dataSlice";
-import { OrderStatus } from "../../Types/dataTypes";
+import {
+  OrderStatus,
+  PaymentMethod,
+  PaymentStatus,
+} from "../../Types/dataTypes";
 
 const OrderTable = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +19,7 @@ const OrderTable = () => {
   const handleDelete = (id: string) => {
     dispatch(deleteOrder(id));
   };
-
+  console.log(orders[0].paymentDetails);
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 mb-10 shadow-default sm:px-7.5 pb-10">
       <div className="py-6 px-4 md:px-6 xl:px-7.5">
@@ -34,6 +38,14 @@ const OrderTable = () => {
               <th className="min-w-[120px] py-4 px-4 font-medium text-black">
                 Shipping Address
               </th>
+              <th className="min-w-[120px] py-4 px-4 font-medium text-black">
+                Payment Method
+              </th>
+
+              <th className="min-w-[120px] py-4 px-4 font-medium text-black">
+                Payment Status
+              </th>
+
               <th className="min-w-[120px] py-4 px-4 font-medium text-black">
                 Order Status
               </th>
@@ -55,6 +67,29 @@ const OrderTable = () => {
                   <td className="border-b border-[#eee] py-5 px-4">
                     <p className="text-black">{order.shippingAddress}</p>
                   </td>
+                  <td className="border-b border-[#eee] py-5 px-4">
+                    <p
+                      className={`inline-flex rounded-full py-1 px-3 text-sm font-medium ${
+                        order.Payment.paymentMethod === PaymentMethod.COD
+                          ? "bg-green-200 text-green-600"
+                          : "bg-purple-200 text-purple-600"
+                      }`}
+                    >
+                      {order.Payment.paymentMethod}
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4">
+                    <p
+                      className={`inline-flex rounded-full py-1 px-3 text-sm font-medium ${
+                        order.Payment.paymentStatus === PaymentStatus.Paid
+                          ? "bg-green-200 text-green-600"
+                          : "bg-red-200 text-red-600"
+                      }`}
+                    >
+                      {order.Payment.paymentStatus}
+                    </p>
+                  </td>
+
                   <td className="border-b border-[#eee] py-5 px-4">
                     <p
                       className={`inline-flex rounded-full py-1 px-3 text-sm font-medium ${

@@ -26,6 +26,10 @@ export enum PaymentMethod {
   COD = "cod",
   Khalti = "khalti",
 }
+export enum PaymentStatus {
+  Paid = "paid",
+  Unpaid = "unpaid",
+}
 
 export enum OrderStatus {
   Pending = "pending",
@@ -38,6 +42,7 @@ export enum OrderStatus {
 
 interface Payment {
   paymentMethod: PaymentMethod;
+  paymentStatus: PaymentStatus;
 }
 export interface ItemDetails {
   productId: string;
@@ -48,6 +53,10 @@ export interface OrderData {
   shippingAddress: string;
   totalAmount: number;
   paymentDetails: Payment;
+  Payment: {
+    paymentMethod: PaymentMethod;
+    paymentStatus: PaymentStatus;
+  };
   items: ItemDetails[];
   id: string;
   orderStatus: OrderStatus;
@@ -81,8 +90,12 @@ export interface SingleOrder {
     orderStatus: OrderStatus;
     userId: string;
     Payment: {
+      paymentId: string;
       paymentMethod: string;
       paymentStatus: string;
+    };
+    User: {
+      username: string;
     };
   };
 }

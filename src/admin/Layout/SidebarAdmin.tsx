@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { TbCategoryPlus } from "react-icons/tb";
-import { FaRegUser } from "react-icons/fa";
+
 import { NavLink } from "react-router-dom";
 import { useAppDispatch } from "../Store/hooks";
 import { fetchOrders, fetchProducts, fetchUsers } from "../Store/dataSlice";
-import { AiFillEdit } from "react-icons/ai";
-import { AiFillProduct } from "react-icons/ai";
 
+import { AiFillProduct } from "react-icons/ai";
+import { FaShoppingCart, FaUsers } from "react-icons/fa";
 const SidebarAdmin = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -27,7 +27,7 @@ const SidebarAdmin = () => {
   return (
     <aside
       id="sidebar"
-      className={`fixed h-[90vh] bg-[#242424] py-6 transition-all duration-500 ease-in-out ${
+      className={`fixed h-[90vh] bg-[#319795] py-6 transition-all duration-500 ease-in-out ${
         isExpanded ? "w-80" : "w-20"
       }`}
       onMouseEnter={handleMouseEnter}
@@ -38,9 +38,9 @@ const SidebarAdmin = () => {
           <li>
             <NavLink
               to="/user-details"
-              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
+              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#42b6b4] hover:bg-[#38c1be] text-white"
             >
-              <FaRegUser className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
+              <FaUsers className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
               {isExpanded && (
                 <span className="ml-5 text-xl transition-colors text-[#EEEEEE] hover:text-[#F5F5F5] duration-300">
                   User Details
@@ -51,7 +51,7 @@ const SidebarAdmin = () => {
           <li>
             <NavLink
               to="/product-details"
-              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
+              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#42b6b4] hover:bg-[#38c1be] text-white"
             >
               <AiFillProduct className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
               {isExpanded && (
@@ -64,7 +64,7 @@ const SidebarAdmin = () => {
           <li>
             <NavLink
               to="/category-details"
-              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
+              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#42b6b4] hover:bg-[#38c1be] text-white"
             >
               <TbCategoryPlus className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
               {isExpanded && (
@@ -77,9 +77,9 @@ const SidebarAdmin = () => {
           <li>
             <NavLink
               to="/order-details"
-              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
+              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#42b6b4] hover:bg-[#38c1be] text-white"
             >
-              <AiFillEdit className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
+              <FaShoppingCart className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
               {isExpanded && (
                 <span className="ml-5 text-xl transition-colors text-[#EEEEEE] hover:text-[#F5F5F5] duration-300">
                   Order Details

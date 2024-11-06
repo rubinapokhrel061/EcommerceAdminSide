@@ -1,8 +1,8 @@
 import { MdLogout } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../Store/hooks";
 import { setUserLogout } from "../Store/AuthSlice";
-
+import { FaRegUser } from "react-icons/fa";
 const NavbarAdmin = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -11,20 +11,29 @@ const NavbarAdmin = () => {
     dispatch(setUserLogout());
     navigate("/login");
   };
+  const name = localStorage.getItem("User");
   return (
-    <nav className="bg-[#242424] z-30 fixed w-full">
+    <nav className="bg-[#319795] z-30 fixed w-full">
       <div className="flex p-6 justify-between items-center">
         <div className="flex items-center">
-          <span className="text-xl font-bold  text-[#EEEEEE] cursor-pointer hover:text-[#F5F5F5]">
+          <Link
+            to={"/"}
+            className="text-xl font-bold  text-[#EEEEEE] cursor-pointer hover:text-[#F5F5F5]"
+          >
             Admin Dashboard
-          </span>
+          </Link>
         </div>
 
-        <div className="flex  text-[#EEEEEE] cursor-pointer hover:text-[#F5F5F5]items-center gap-4 ">
-          <h3>Admin Name</h3>
+        <div className="flex  justify-center items-center text-[#EEEEEE] cursor-pointer hover:text-[#F5F5F5]items-center gap-4 capitalize ">
+          <div className="flex gap-1 justify-center items-center ">
+            {" "}
+            <FaRegUser />
+            <h2>{name}</h2>
+          </div>
+
           <button
             onClick={handleLogout}
-            className="flex items-center  py-1 px-2 rounded-lg transition-colors duration-300 bg-[#616161] hover:bg-[#474747] text-white"
+            className="flex items-center  py-1 px-2 rounded-lg transition-colors duration-300 bg-[#42b6b4] hover:bg-[#38c1be] text-white"
           >
             <MdLogout className="w-4 h-4 transition-colors duration-300  text-[#EEEEEE] hover:text-[#F5F5F5]" />
             <small>LogOut</small>

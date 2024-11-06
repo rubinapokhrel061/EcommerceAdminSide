@@ -4,6 +4,7 @@ import { AppDispatch } from "./store";
 
 import { Status } from "../Types/status";
 import { API } from "../http";
+import toast from "react-hot-toast";
 
 interface LoginData {
   email: string;
@@ -67,15 +68,20 @@ export function login(data: LoginData) {
     try {
       const response = await API.post("login", data);
       if (response.status === 200) {
-        const { data } = response.data;
+        const { token } = response.data.data;
+        const { username } = response.data.data;
+
         dispatch(setStatus(Status.SUCCESS));
-        dispatch(setToken(data));
-        localStorage.setItem("token", data);
+        dispatch(setToken(token));
+        localStorage.setItem("token", token);
+        localStorage.setItem("User", username);
+        toast.success(response?.data?.message);
       } else {
         dispatch(setStatus(Status.ERROR));
       }
-    } catch (error) {
+    } catch (error: any) {
       dispatch(setStatus(Status.ERROR));
+      toast.error(error.response.data.message);
     }
   };
 }

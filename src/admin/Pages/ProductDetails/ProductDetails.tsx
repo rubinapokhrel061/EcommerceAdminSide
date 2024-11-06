@@ -87,13 +87,13 @@ const ProductDetails = () => {
     setData({
       productName: product.productName,
       categoryId: product.categoryId,
-      image: product.image || null, // Keep the existing image as null for re-upload
+      image: product.image, // Ensure image is properly loaded
       productDescription: product.productDescription,
       productPrice: product.productPrice,
       productTotalStockQty: product.productTotalStockQty,
     });
   };
-
+  console.log(data);
   return (
     <AdminLayout>
       <div className="px-10 py-8 mx-auto max-w-screen-xl">
@@ -217,15 +217,16 @@ const ProductDetails = () => {
                 htmlFor="image"
                 className="block mb-2 text-sm font-medium text-gray-900"
               >
-                Image
+                {editingId ? "Image (Optional)" : "Upload Image"}
               </label>
+
               <input
                 type="file"
                 name="image"
                 id="image"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 onChange={handleChange}
-                ref={imageInputRef} // Attach the ref to the input element
+                ref={imageInputRef}
               />
             </div>
           </div>

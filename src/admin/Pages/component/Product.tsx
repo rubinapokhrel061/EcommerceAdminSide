@@ -13,6 +13,7 @@ const ProductTable = ({ onSubmit }: ProductTableProps) => {
   const handleDelete = (id: string) => {
     dispatch(deleteProduct(id));
   };
+
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white px-5 pt-2 mt-8 mb-10 shadow-default sm:px-7.5 pb-10">

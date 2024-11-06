@@ -41,6 +41,7 @@ export interface AddProduct {
   productPrice: number;
   productTotalStockQty: number;
   image: null;
+
   categoryId: string;
 }
 export interface UpdateProduct {
@@ -50,6 +51,7 @@ export interface UpdateProduct {
   productPrice: number;
   productTotalStockQty: number;
   image: null;
+
   categoryId: string;
 }
 // Create the slice
@@ -286,7 +288,12 @@ export function updateProductDetails(id: string, formData: AddProduct) {
     try {
       const response = await APIAuthenticated.patch(
         `/admin/product/${id}`,
-        formData
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       if (response.status === 200) {
         console.log(response.data.message);

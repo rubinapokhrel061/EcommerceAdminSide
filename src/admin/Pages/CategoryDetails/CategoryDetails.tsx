@@ -118,7 +118,10 @@ const CategoryDetails = () => {
                       <td className="border-b border-[#eee] py-5 px-4">
                         <div className="flex items-center space-x-3.5">
                           <button
-                            onClick={() => handleEdit(category)}
+                            onClick={() => {
+                              handleEdit(category);
+                              window.scrollTo(0, 0);
+                            }}
                             className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-700"
                           >
                             Edit

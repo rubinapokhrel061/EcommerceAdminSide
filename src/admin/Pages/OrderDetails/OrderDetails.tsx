@@ -1,5 +1,5 @@
 import AdminLayout from "../../Layout/AdminLayout";
-import OrderTable from "../component/Order";
+import OrderTable from "../../component/Order";
 
 const OrderDetails = () => {
   return (

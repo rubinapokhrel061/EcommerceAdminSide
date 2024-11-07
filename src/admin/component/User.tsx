@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import {
-  deleteUser,
-  fetchUsers,
-  updateUserDetails,
-} from "../../Store/dataSlice";
+import { useAppDispatch, useAppSelector } from "../Store/hooks";
+import { deleteUser, fetchUsers, updateUserDetails } from "../Store/dataSlice";
 
 const UserTable = () => {
   const dispatch = useAppDispatch();

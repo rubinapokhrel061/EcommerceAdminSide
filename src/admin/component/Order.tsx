@@ -1,12 +1,8 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { deleteOrder, fetchOrders } from "../../Store/dataSlice";
-import {
-  OrderStatus,
-  PaymentMethod,
-  PaymentStatus,
-} from "../../Types/dataTypes";
+import { useAppDispatch, useAppSelector } from "../Store/hooks";
+import { deleteOrder, fetchOrders } from "../Store/dataSlice";
+import { OrderStatus, PaymentMethod, PaymentStatus } from "../Types/dataTypes";
 
 const OrderTable = () => {
   const dispatch = useAppDispatch();

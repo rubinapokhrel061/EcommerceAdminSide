@@ -8,7 +8,7 @@ import {
   UpdateProduct,
 } from "../../Store/dataSlice";
 import AdminLayout from "../../Layout/AdminLayout";
-import ProductTable from "../Component/Product";
+import ProductTable from "../component/Product";
 
 const ProductDetails = () => {
   interface Category {

@@ -1,5 +1,5 @@
 import AdminLayout from "../../Layout/AdminLayout";
-import UserTable from "../Component/User";
+import UserTable from "../component/User";
 
 const UserDetails = () => {
   return (

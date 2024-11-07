@@ -18,8 +18,8 @@ const SingleOrder = () => {
   const {
     singleOrder: [order],
   } = useAppSelector((state) => state.data);
-  const [orderStatus, setOrderStatus] = useState("");
-  const [paymentStatus, setPaymentStatus] = useState("");
+  const [, setOrderStatus] = useState("");
+  const [, setPaymentStatus] = useState("");
 
   useEffect(() => {
     if (id) {

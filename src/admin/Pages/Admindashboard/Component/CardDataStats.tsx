@@ -1,5 +1,4 @@
 import React from "react";
-import { FaShoppingCart, FaUsers, FaBox } from "react-icons/fa";
 
 interface CardStatProps {
   title: string;

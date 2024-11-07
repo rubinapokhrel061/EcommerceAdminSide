@@ -68,20 +68,20 @@ export function login(data: LoginData) {
     try {
       const response = await API.post("login", data);
       if (response.status === 200) {
-        const { token } = response.data.data;
-        const { username } = response.data.data;
-
+        const token = response.data.data;
+        const user = response.data.user;
+        console.log(user);
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setToken(token));
         localStorage.setItem("token", token);
-        localStorage.setItem("User", username);
+        localStorage.setItem("User", user.username);
         toast.success(response?.data?.message);
       } else {
         dispatch(setStatus(Status.ERROR));
       }
     } catch (error: any) {
       dispatch(setStatus(Status.ERROR));
-      toast.error(error.response.data.message);
+      // toast.error(error.response.data.message);
     }
   };
 }

@@ -23,7 +23,7 @@ const OrderTable = () => {
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 mb-10 shadow-default sm:px-7.5 pb-10">
       <div className="py-6 px-4 md:px-6 xl:px-7.5">
-        <h4 className="text-xl font-semibold text-black">Orders list:</h4>
+        <h4 className="text-xl font-extrabold text-black">Orders List:</h4>
       </div>
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">

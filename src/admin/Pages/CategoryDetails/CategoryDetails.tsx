@@ -59,7 +59,7 @@ const CategoryDetails = () => {
     <AdminLayout>
       <div className="py-8 px-6">
         <div className="mx-auto max-w-2xl">
-          <h2 className="mb-4 text-xl font-bold text-gray-900">
+          <h2 className="mb-4 text-xl font-extrabold text-gray-900">
             {editingId ? "Edit Category" : "Add a New Category"}
           </h2>
           <form onSubmit={handleSubmit}>
@@ -81,7 +81,7 @@ const CategoryDetails = () => {
                 required
               />
             </div>
-            <button className="w-full p-2 rounded-xl mt-8 font-medium text-white bg-gradient-to-b from-blue-700 to-blue-900 md:p-3">
+            <button className="w-full p-2 rounded-xl mt-8 font-medium text-white bg-gradient-to-b from-[#33d058] to-[#115c23] md:p-3">
               {editingId ? "Update Category" : "Add Category"}
             </button>
           </form>

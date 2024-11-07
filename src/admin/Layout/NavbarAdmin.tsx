@@ -13,14 +13,15 @@ const NavbarAdmin = () => {
   };
   const name = localStorage.getItem("User");
   return (
-    <nav className="bg-[#319795] z-30 fixed w-full">
+    <nav className="bg-[#FFA500] z-30 fixed w-full">
       <div className="flex p-6 justify-between items-center">
         <div className="flex items-center">
           <Link
-            to={"/"}
-            className="text-xl font-bold  text-[#EEEEEE] cursor-pointer hover:text-[#F5F5F5]"
+            to="/"
+            className="group inline-flex items-center   text-lg md:text-2xl font-bold tracking-wide"
           >
-            Admin Dashboard
+            <span className=" text-[#28A745] hover:text-[#21903b]">Quick</span>
+            <span> Basket</span>
           </Link>
         </div>
 
@@ -33,9 +34,9 @@ const NavbarAdmin = () => {
 
           <button
             onClick={handleLogout}
-            className="flex items-center  py-1 px-2 rounded-lg transition-colors duration-300 bg-[#42b6b4] hover:bg-[#38c1be] text-white"
+            className="flex items-center  py-1 px-2 rounded-lg transition-colors duration-300 bg-red-600 hover:bg-red-700 text-white"
           >
-            <MdLogout className="w-4 h-4 transition-colors duration-300  text-[#EEEEEE] hover:text-[#F5F5F5]" />
+            <MdLogout className="w-4 h-4 transition-colors duration-300 " />
             <small>LogOut</small>
           </button>
         </div>

@@ -27,7 +27,7 @@ const SidebarAdmin = () => {
   return (
     <aside
       id="sidebar"
-      className={`fixed h-[90vh] bg-[#319795] py-6 transition-all duration-500 ease-in-out ${
+      className={`fixed h-[90vh] bg-[#FFA500] py-6 transition-all duration-500 ease-in-out ${
         isExpanded ? "w-80" : "w-20"
       }`}
       onMouseEnter={handleMouseEnter}
@@ -38,11 +38,11 @@ const SidebarAdmin = () => {
           <li>
             <NavLink
               to="/user-details"
-              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#42b6b4] hover:bg-[#38c1be] text-white"
+              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#e19913] hover:bg-[#dd9308] "
             >
-              <FaUsers className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
+              <FaUsers className="w-6 h-6 transition-colors   duration-300" />
               {isExpanded && (
-                <span className="ml-5 text-xl transition-colors text-[#EEEEEE] hover:text-[#F5F5F5] duration-300">
+                <span className="ml-5 text-xl transition-colors duration-300">
                   User Details
                 </span>
               )}
@@ -51,11 +51,11 @@ const SidebarAdmin = () => {
           <li>
             <NavLink
               to="/product-details"
-              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#42b6b4] hover:bg-[#38c1be] text-white"
+              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#e19913] hover:bg-[#dd9308] "
             >
-              <AiFillProduct className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
+              <AiFillProduct className="w-6 h-6 transition-colors   duration-300" />
               {isExpanded && (
-                <span className="ml-5 text-xl transition-colors text-[#EEEEEE] hover:text-[#F5F5F5] duration-300">
+                <span className="ml-5 text-xl transition-colors  duration-300">
                   Product Details
                 </span>
               )}
@@ -64,11 +64,11 @@ const SidebarAdmin = () => {
           <li>
             <NavLink
               to="/category-details"
-              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#42b6b4] hover:bg-[#38c1be] text-white"
+              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#e19913] hover:bg-[#dd9308] "
             >
-              <TbCategoryPlus className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
+              <TbCategoryPlus className="w-6 h-6 transition-colors   duration-300" />
               {isExpanded && (
-                <span className="ml-5 text-xl transition-colors text-[#EEEEEE] hover:text-[#F5F5F5] duration-300">
+                <span className="ml-5 text-xl transition-colors  duration-300">
                   Category Details
                 </span>
               )}
@@ -77,11 +77,11 @@ const SidebarAdmin = () => {
           <li>
             <NavLink
               to="/order-details"
-              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#42b6b4] hover:bg-[#38c1be] text-white"
+              className="flex items-center font-bold p-2 rounded-lg transition-colors duration-300 bg-[#e19913] hover:bg-[#dd9308] "
             >
-              <FaShoppingCart className="w-6 h-6 transition-colors  text-[#EEEEEE] hover:text-[#F5F5F5] duration-300" />
+              <FaShoppingCart className="w-6 h-6 transition-colors   duration-300" />
               {isExpanded && (
-                <span className="ml-5 text-xl transition-colors text-[#EEEEEE] hover:text-[#F5F5F5] duration-300">
+                <span className="ml-5 text-xl transition-colors  duration-300">
                   Order Details
                 </span>
               )}

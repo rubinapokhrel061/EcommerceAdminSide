@@ -53,7 +53,7 @@ const UserTable = () => {
     <div className="flex flex-col">
       <div className="rounded-sm border border-stroke bg-white px-5 pt-6 mb-10 shadow-default sm:px-7.5 pb-10">
         <div className="py-6 px-4 md:px-6 xl:px-7.5">
-          <h4 className="text-xl font-semibold text-black">Users List:</h4>
+          <h4 className="text-xl font-extrabold text-black">Users List:</h4>
         </div>
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
@@ -202,7 +202,7 @@ const UserTable = () => {
                 {/* Ensure the submit button has type="submit" */}
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  className="px-4 py-2 bg-gradient-to-b from-[#33d058] to-[#115c23] text-white rounded-lg "
                 >
                   Save Changes
                 </button>

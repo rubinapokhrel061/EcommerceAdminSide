@@ -97,7 +97,7 @@ const ProductDetails = () => {
   return (
     <AdminLayout>
       <div className="px-10 py-8 mx-auto max-w-screen-xl">
-        <h2 className="mb-4 text-xl font-bold text-gray-900">
+        <h2 className="mb-4 text-xl font-extrabold text-gray-900">
           {editingId ? "Edit Product" : "Add a New Product"}
         </h2>
         <form onSubmit={handleSubmit}>
@@ -230,7 +230,7 @@ const ProductDetails = () => {
               />
             </div>
           </div>
-          <button className="w-full p-2 rounded-xl mt-8 font-medium text-white bg-gradient-to-b from-blue-700 to-blue-900 md:p-3">
+          <button className="w-full p-2 rounded-xl mt-8 font-medium text-white  bg-gradient-to-b from-[#33d058] to-[#115c23] md:p-3">
             {editingId ? "Update Product" : "Add Product"}
           </button>
         </form>

@@ -50,7 +50,6 @@ const SingleOrder = () => {
     setPaymentStatus(newPaymentStatus);
 
     if (id && order?.Order?.userId) {
-      // Emit socket event to notify payment status update
       socket.emit("updatedPaymentStatus", {
         paymentStatus: newPaymentStatus,
         orderId: id,
@@ -77,7 +76,6 @@ const SingleOrder = () => {
 
         <div className="py-12 mt-20 px-6  bg-gray-50">
           <div className="max-w-screen-xl mx-auto space-y-6">
-            {/* Order Header */}
             <div className="flex justify-between items-center space-y-4">
               <h1 className="text-2xl font-semibold text-gray-800">
                 Order id : {id}
@@ -85,9 +83,7 @@ const SingleOrder = () => {
               <p className="text-sm text-gray-500">{order?.createdAt}</p>
             </div>
 
-            {/* Order Information */}
             <div className="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-6">
-              {/* Product Details */}
               <div className="bg-white shadow-lg rounded-lg p-6 w-full lg:w-1/2">
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">
                   Product Details
@@ -129,7 +125,6 @@ const SingleOrder = () => {
                 </div>
               </div>
 
-              {/* Summary */}
               <div className="bg-white shadow-lg rounded-lg p-6 w-full lg:w-1/2">
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">
                   Order Summary
@@ -169,7 +164,6 @@ const SingleOrder = () => {
               </div>
             </div>
 
-            {/* Customer Information */}
             <div className="bg-white shadow-lg rounded-lg p-6">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Customer Details

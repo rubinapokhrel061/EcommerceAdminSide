@@ -7,9 +7,9 @@ const NavbarAdmin = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const handleLogout = () => {
+    navigate("/");
     localStorage.clear();
     dispatch(setUserLogout());
-    navigate("/login");
   };
   const name = localStorage.getItem("User");
   return (
@@ -24,22 +24,28 @@ const NavbarAdmin = () => {
             <span> Basket</span>
           </Link>
         </div>
-
-        <div className="flex  justify-center items-center text-[#EEEEEE] cursor-pointer hover:text-[#F5F5F5]items-center gap-4 capitalize ">
-          <div className="flex gap-1 justify-center items-center ">
+        {name ? (
+          <>
             {" "}
-            <FaRegUser />
-            <h2>{name}</h2>
-          </div>
+            <div className="flex  justify-center items-center text-[#EEEEEE] cursor-pointer hover:text-[#F5F5F5]items-center gap-4 capitalize ">
+              <div className="flex gap-1 justify-center items-center ">
+                {" "}
+                <FaRegUser />
+                <h2>{name}</h2>
+              </div>
 
-          <button
-            onClick={handleLogout}
-            className="flex items-center  py-1 px-2 rounded-lg transition-colors duration-300 bg-red-600 hover:bg-red-700 text-white"
-          >
-            <MdLogout className="w-4 h-4 transition-colors duration-300 " />
-            <small>LogOut</small>
-          </button>
-        </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center  py-1 px-2 rounded-lg transition-colors duration-300 bg-red-600 hover:bg-red-700 text-white"
+              >
+                <MdLogout className="w-4 h-4 transition-colors duration-300 " />
+                <small>LogOut</small>
+              </button>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </nav>
   );

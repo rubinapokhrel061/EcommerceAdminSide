@@ -52,7 +52,7 @@ const CategoryDetails = () => {
 
   const handleEdit = (category: { id: string; categoryName: string }) => {
     setData({ categoryName: category.categoryName });
-    setEditingId(category.id); // Set the category to edit
+    setEditingId(category.id);
   };
 
   return (

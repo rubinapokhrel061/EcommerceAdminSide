@@ -102,7 +102,6 @@ const ProductDetails = () => {
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            {/* Product Name Input */}
             <div>
               <label
                 htmlFor="productName"
@@ -114,7 +113,7 @@ const ProductDetails = () => {
                 type="text"
                 name="productName"
                 id="productName"
-                value={data.productName} // Controlled input
+                value={data.productName}
                 onChange={handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholder="Smart Watch"
@@ -122,7 +121,6 @@ const ProductDetails = () => {
               />
             </div>
 
-            {/* Product Total Stock Quantity Input */}
             <div>
               <label
                 htmlFor="productTotalStockQty"
@@ -134,7 +132,7 @@ const ProductDetails = () => {
                 type="number"
                 name="productTotalStockQty"
                 id="productTotalStockQty"
-                value={data.productTotalStockQty} // Controlled input
+                value={data.productTotalStockQty}
                 onChange={handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholder="5"
@@ -142,7 +140,6 @@ const ProductDetails = () => {
               />
             </div>
 
-            {/* Product Price Input */}
             <div>
               <label
                 htmlFor="productPrice"
@@ -154,7 +151,7 @@ const ProductDetails = () => {
                 type="number"
                 name="productPrice"
                 id="productPrice"
-                value={data.productPrice} // Controlled input
+                value={data.productPrice}
                 onChange={handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholder="Rs 2999"
@@ -162,7 +159,6 @@ const ProductDetails = () => {
               />
             </div>
 
-            {/* Category Selection */}
             <div>
               <label
                 htmlFor="categoryId"
@@ -173,7 +169,7 @@ const ProductDetails = () => {
               <select
                 id="categoryId"
                 name="categoryId"
-                value={data.categoryId} // Controlled input
+                value={data.categoryId}
                 onChange={handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 required
@@ -191,7 +187,6 @@ const ProductDetails = () => {
               </select>
             </div>
 
-            {/* Product Description Input */}
             <div className="sm:col-span-2">
               <label
                 htmlFor="productDescription"
@@ -203,7 +198,7 @@ const ProductDetails = () => {
                 id="productDescription"
                 name="productDescription"
                 rows={8}
-                value={data.productDescription} // Controlled input
+                value={data.productDescription}
                 onChange={handleChange}
                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                 placeholder="Your description here"
@@ -211,7 +206,6 @@ const ProductDetails = () => {
               />
             </div>
 
-            {/* Product Image Upload */}
             <div className="sm:col-span-2">
               <label
                 htmlFor="image"

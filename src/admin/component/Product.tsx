@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../Store/hooks";
 import { deleteProduct, fetchProducts } from "../Store/dataSlice";
 
 interface ProductTableProps {
-  onSubmit: (product: any) => void; // Pass in the product data to handle editing
+  onSubmit: (product: any) => void;
 }
 const ProductTable = ({ onSubmit }: ProductTableProps) => {
   const dispatch = useAppDispatch();

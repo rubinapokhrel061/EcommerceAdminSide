@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const APIAuthenticated = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: "https://ecommerce-backend-9epn.onrender.com/",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -10,7 +10,7 @@ const APIAuthenticated = axios.create({
 });
 
 const API = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: "https://ecommerce-backend-9epn.onrender.com/",
   headers: {
     "Content-Type": "application/json",
     " Accept": "application/json",

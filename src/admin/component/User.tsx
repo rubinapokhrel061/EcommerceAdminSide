@@ -6,7 +6,6 @@ const UserTable = () => {
   const dispatch = useAppDispatch();
   const { users } = useAppSelector((state) => state.data);
 
-  // State to keep track of the user being edited
   const [editingUser, setEditingUser] = useState<any | null>(null);
 
   useEffect(() => {
@@ -18,11 +17,11 @@ const UserTable = () => {
   };
 
   const handleEdit = (user: any) => {
-    setEditingUser(user); // Open edit form and pre-populate with user data
+    setEditingUser(user);
   };
 
   const handleCancelEdit = () => {
-    setEditingUser(null); // Close the edit form without saving
+    setEditingUser(null);
   };
 
   const handleInputChange = (
@@ -39,9 +38,9 @@ const UserTable = () => {
     e.preventDefault();
     if (editingUser) {
       const updatedUser = { ...editingUser };
-      let id = editingUser.id; // Get the latest edited user
-      await dispatch(updateUserDetails(id, updatedUser)); // Dispatch action to update the user
-      setEditingUser(null); // Close the modal after submission
+      let id = editingUser.id;
+      await dispatch(updateUserDetails(id, updatedUser));
+      setEditingUser(null);
     }
   };
 
@@ -190,12 +189,12 @@ const UserTable = () => {
               <div className="flex justify-end space-x-4">
                 <button
                   type="button"
-                  onClick={handleCancelEdit} // Close the form without saving
+                  onClick={handleCancelEdit}
                   className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-700"
                 >
                   Cancel
                 </button>
-                {/* Ensure the submit button has type="submit" */}
+
                 <button
                   type="submit"
                   className="px-4 py-2 bg-gradient-to-b from-[#33d058] to-[#115c23] text-white rounded-lg "

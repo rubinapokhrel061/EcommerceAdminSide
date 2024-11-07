@@ -33,9 +33,9 @@ const Login = () => {
   };
   useEffect(() => {
     if (status === Status.SUCCESS) {
-      navigate("/");
+      navigate("/dashboard");
     } else {
-      navigate("/login");
+      navigate("/");
     }
   }, [status, dispatch]);
 

@@ -11,7 +11,7 @@ const ProductTable = ({ onSubmit }: ProductTableProps) => {
   const { products } = useAppSelector((state) => state.data);
   useEffect(() => {
     dispatch(fetchProducts());
-  }, []);
+  }, [dispatch]);
   const handleDelete = (id: string) => {
     dispatch(deleteProduct(id));
   };
@@ -52,22 +52,22 @@ const ProductTable = ({ onSubmit }: ProductTableProps) => {
                     <td className="border-b border-[#eee] py-5 px-4 object-contain">
                       <img
                         className="h-[200px] w-[250px] object-contain"
-                        src={product.productImageUrl}
-                        alt={product.productName}
+                        src={product?.productImageUrl}
+                        alt={product?.productName}
                       />
-                      <h1 className="font-bold">{product.productName}</h1>
+                      <h1 className="font-bold">{product?.productName}</h1>
                     </td>
                     <td className="border-b border-[#eee] py-5 px-4">
-                      {product.Category?.categoryName}
+                      {product?.Category?.categoryName}
                     </td>
                     <td className="border-b border-[#eee] py-5 px-4">
-                      {product.productPrice}
+                      Rs.{product?.productPrice}
                     </td>
                     <td className="border-b border-[#eee] py-5 px-4">
-                      {product.productTotalStockQty}
+                      {product?.productTotalStockQty}
                     </td>
                     <td className="border-b border-[#eee] py-5 px-4">
-                      {product.createdAt}
+                      {product?.createdAt}
                     </td>
                     <td className="border-b border-[#eee] py-5 px-4">
                       <div className="flex items-center space-x-3.5">

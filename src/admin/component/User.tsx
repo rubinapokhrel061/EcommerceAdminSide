@@ -14,10 +14,12 @@ const UserTable = () => {
 
   const handleDelete = (id: string) => {
     dispatch(deleteUser(id));
+    dispatch(fetchUsers());
   };
 
   const handleEdit = (user: any) => {
     setEditingUser(user);
+    dispatch(fetchUsers());
   };
 
   const handleCancelEdit = () => {

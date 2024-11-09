@@ -19,7 +19,7 @@ const NavbarAdmin = () => {
       <div className="flex p-6 justify-between items-center">
         <div className="flex items-center">
           <Link
-            to="/"
+            to="/dashboard"
             className="group inline-flex items-center   text-lg md:text-2xl font-bold tracking-wide"
           >
             <span className=" text-[#28A745] hover:text-[#21903b]">Quick</span>

@@ -70,7 +70,7 @@ export function login(data: LoginData) {
       if (response.status === 200) {
         const token = response.data.data;
         const user = response.data.user;
-        console.log(user);
+
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setToken(token));
         localStorage.setItem("token", token);
@@ -81,7 +81,7 @@ export function login(data: LoginData) {
       }
     } catch (error: any) {
       dispatch(setStatus(Status.ERROR));
-      // toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message);
     }
   };
 }

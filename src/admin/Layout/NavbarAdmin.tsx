@@ -1,8 +1,9 @@
 import { MdLogout } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../Store/hooks";
-import { setUserLogout } from "../Store/AuthSlice";
+import { resetStatus, setUserLogout } from "../Store/AuthSlice";
 import { FaRegUser } from "react-icons/fa";
+
 const NavbarAdmin = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ const NavbarAdmin = () => {
     navigate("/");
     localStorage.clear();
     dispatch(setUserLogout());
+    dispatch(resetStatus());
   };
   const name = localStorage.getItem("User");
   return (

@@ -166,7 +166,7 @@ const UserTable = () => {
                 <input
                   type="password"
                   name="password"
-                  value={editingUser.password}
+                  // value={editingUser.password}
                   onChange={handleInputChange}
                   className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
                 />

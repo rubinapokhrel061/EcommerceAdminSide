@@ -11,6 +11,8 @@ import CategoryDetails from "./admin/Pages/CategoryDetails/CategoryDetails";
 import UserDetails from "./admin/Pages/UserDetails/UserDetails";
 import OrderDetails from "./admin/Pages/OrderDetails/OrderDetails";
 import { Toaster } from "react-hot-toast";
+import NotFound from "./admin/Pages/NotFound";
+import Protected from "./protected/Protected";
 export const socket = io("http://localhost:8080", {
   auth: {
     token: localStorage.getItem("token"),
@@ -23,12 +25,55 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />}></Route>
-          <Route path="/dashboard" element={<Admindashboard />}></Route>
-          <Route path="/user-details" element={<UserDetails />}></Route>
-          <Route path="/product-details" element={<ProductDetails />}></Route>
-          <Route path="/category-details" element={<CategoryDetails />}></Route>
-          <Route path="/order-details" element={<OrderDetails />}></Route>
-          <Route path="/order/:id" element={<SingleOrder />}></Route>
+          <Route
+            path="/dashboard"
+            element={
+              <Protected>
+                <Admindashboard />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="/user-details"
+            element={
+              <Protected>
+                <UserDetails />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="/product-details"
+            element={
+              <Protected>
+                <ProductDetails />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="/category-details"
+            element={
+              <Protected>
+                <CategoryDetails />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="/order-details"
+            element={
+              <Protected>
+                <OrderDetails />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="/order/:id"
+            element={
+              <Protected>
+                <SingleOrder />
+              </Protected>
+            }
+          ></Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
       <Toaster />

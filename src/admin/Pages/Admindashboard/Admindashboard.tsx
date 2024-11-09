@@ -18,7 +18,7 @@ const ECommerce: React.FC = () => {
     productsCount: products.length,
   };
   console.log(localStorage.getItem("token"));
-  console.log(products);
+
   return (
     <AdminLayout>
       <div className="grid grid-cols-1 gap-8 p-16 md:grid-cols-2 md:gap-10 md:py-20 xl:grid-cols-3 ">
